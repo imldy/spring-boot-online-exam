@@ -22,7 +22,7 @@ cd spring-boot-online-exam
 ### 1.3 windows
 + 1.安装JDK，推荐JDK8
 + 2.从官方仓库下载发布的jar包，建议选择最新版：https://github.com/lsgwr/spring-boot-online-exam/releases
-+ 3.安装MySQL，创建数据库exam，并初始化密码为aA111111，导入doc/sql/exam.sql文件来创建数据库
++ 3.安装MySQL 5.7.17，创建数据库exam，并初始化密码为aA111111，导入doc/sql/exam.sql文件来创建数据库
 + 4.启动jar包：`java -jar exam.jar`
 + 5.访问：http://ip:9527 即可访问自己搭建的考试系统
 
