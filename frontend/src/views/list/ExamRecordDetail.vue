@@ -99,7 +99,7 @@
           </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
-          Spting Boot Online Exam ©2020 Created by Liang Shan Guang
+          Spting Boot Online CET ©2025 Created by 黄海学院
         </a-layout-footer>
       </a-layout>
     </a-layout>

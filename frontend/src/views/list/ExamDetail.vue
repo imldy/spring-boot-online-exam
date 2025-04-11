@@ -66,7 +66,7 @@
           </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
-          Spting Boot Online Exam ©2020 Crated by Liang Shan Guang
+          Spting Boot Online CET ©2025 Crated by 黄海学院
         </a-layout-footer>
       </a-layout>
     </a-layout>

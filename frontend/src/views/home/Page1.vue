@@ -2,7 +2,7 @@
   <div class="home-page page1">
     <div class="home-page-wrapper" id="page1-wrapper">
       <div class="page1-bg" style="transform: translate(0px, 200.953px);">Feature</div>
-      <h2>What can <span>Online System</span> do for you </h2>
+      <h2><span>在线CET模拟系统</span>能为您做什么</h2>
       <div class="title-line-wrapper page1-line"></div>
       <list :data-source="features" />
     </div>

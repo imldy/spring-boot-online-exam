@@ -5,11 +5,11 @@
         <div class="header">
           <a href="/">
             <img src="../assets/logo.svg" class="logo" alt="logo">
-            <span class="title">Online Exam</span>
+            <span class="title">Online CET</span>
           </a>
         </div>
         <div class="desc">
-          基于SpringBoot+Vue实现的在线考试系统
+          基于SpringBoot的大学生英语四六级模拟考试系统
         </div>
       </div>
 
@@ -17,12 +17,9 @@
 
       <div class="footer">
         <div class="links">
-          <a href="https://github.com/19920625lsg/spring-boot-online-exam" target="_blank">代码仓</a>
-          <a href="https://19920625lsg.github.io" target="_blank">关于我</a>
-          <a href="mailto:liangshanguang2@gmail.com">联系我</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2020 Liang Shan Guang
+          Copyright &copy; 2025 黄海学院
         </div>
       </div>
     </div>
