@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
             String defaultAvatar = "http://d.lanrentuku.com/down/png/1904/business_avatar/8_avatar_2754583.png";
             user.setUserAvatar(defaultAvatar);
             // 设置描述信息，随便设置段默认的
-            user.setUserDescription("welcome to online exam system");
+            user.setUserDescription("welcome to Online CET system");
             // 需要验证这个邮箱是不是已经存在：数据字段已经设置unique了，失败会异常地
             user.setUserEmail(registerDTO.getEmail());
             // 需要验证手机号是否已经存在：数据字段已经设置unique了，失败会异常地
