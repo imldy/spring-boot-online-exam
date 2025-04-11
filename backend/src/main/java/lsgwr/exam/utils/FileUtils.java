@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 文件传输类
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-19 10:27
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.utils;
 

@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 问题创建的实体类
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-06-02 13:26
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.vo;
 

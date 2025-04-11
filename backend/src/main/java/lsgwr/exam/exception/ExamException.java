@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-17 07:50
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.exception;
 

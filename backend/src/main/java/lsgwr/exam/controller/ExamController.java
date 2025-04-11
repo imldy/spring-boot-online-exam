@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 考试服务
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-28 08:04
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.controller;
 

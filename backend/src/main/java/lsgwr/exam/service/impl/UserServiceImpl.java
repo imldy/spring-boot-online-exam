@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 用户服务
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-17 08:03
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.service.impl;
 

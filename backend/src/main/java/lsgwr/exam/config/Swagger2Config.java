@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : Swagger2的配置
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-15 07:39
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.config;
 

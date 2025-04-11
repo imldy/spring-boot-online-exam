@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 考试详情的实体类
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-06-24 08:14
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.vo;
 

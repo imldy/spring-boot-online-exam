@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 前端的操作
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-26 12:31
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.entity;
 

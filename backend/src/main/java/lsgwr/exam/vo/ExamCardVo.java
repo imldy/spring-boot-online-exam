@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 考试卡片列表
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-06-23 19:30
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.vo;
 

@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 考试题目表
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019/5/14 07:46
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.entity;
 

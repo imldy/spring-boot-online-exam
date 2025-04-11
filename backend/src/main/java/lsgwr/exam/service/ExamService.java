@@ -1,8 +1,5 @@
 /***********************************************************
  * @Description : 考试接口
- * @author      : 梁山广(Laing Shan Guang)
- * @date        : 2019-05-28 08:05
- * @email       : liangshanguang2@gmail.com
  ***********************************************************/
 package lsgwr.exam.service;
 
