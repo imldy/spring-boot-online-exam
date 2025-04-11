@@ -14,13 +14,13 @@ public class JwtUtils {
     /**
      * 构建token的主题
      */
-    private static final String SUBJECT = "lsg_exam";
+    private static final String SUBJECT = "hxy_cet";
     /**
      * 过期时间为1天
      */
     private static final long EXPIRE = 1000 * 60 * 60 * 24;
 
-    private static final String APP_SECRET = "liangshanguang";
+    private static final String APP_SECRET = "huanghaixueyuan";
 
     public static String genJsonWebToken(User user) {
         if (user == null || user.getUserId() == null || user.getUserUsername() == null || user.getUserAvatar() == null) {
