@@ -12,7 +12,7 @@
         :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
         @change="handleTabClick"
       >
-        <a-tab-pane key="tab1" tab="在线考试系统登录">
+        <a-tab-pane key="tab1" tab="英语四六级模拟考试系统">
           <a-form-item>
             <a-input
               size="large"

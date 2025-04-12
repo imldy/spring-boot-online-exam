@@ -12,7 +12,7 @@
     <artifactId>exam</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>exam</name>
-    <description>基于SpringBoot的在线考试系统</description>
+    <description>基于SpringBoot的大学生英语四六级模拟考试系统</description>
 
     <properties>
         <java.version>1.8</java.version>

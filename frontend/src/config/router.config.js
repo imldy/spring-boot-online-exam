@@ -8,7 +8,7 @@ export const asyncRouterMap = [
     path: '/',
     name: 'index',
     component: BasicLayout,
-    meta: { title: '在线考试系统' },
+    meta: { title: '英语四六级模拟考试系统' },
     redirect: '/dashboard/home',
     children: [
       // dashboard
