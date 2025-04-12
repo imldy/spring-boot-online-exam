@@ -646,6 +646,10 @@ public class ExamServiceImpl implements ExamService {
      * @return 替换掉最后一个-的字符串
      */
     private String replaceLastSeparator(String str) {
+        // 判断字符串是否为空或长度为0
+        if (str == null || str.length() == 0) {
+            return str;
+        }
         String lastChar = str.substring(str.length() - 1);
         // 题目和题目之间用$分隔，题目有多个选项地话用-分隔,题目和选项之间用_分隔
         if ("-".equals(lastChar) || "_".equals(lastChar) || "$".equals(lastChar)) {
