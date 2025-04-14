@@ -25,7 +25,13 @@ public class Question {
     private Integer questionTypeId;
     private Integer questionCategoryId;
     private String questionDescription;
+    /**
+     * 如果是主观题，则允许为空
+     */
     private String questionOptionIds;
+    /**
+     * 如果是主观题，则允许为空
+     */
     private String questionAnswerOptionIds;
     /**
      * 创建时间, 设计表时设置了自动插入当前时间，无需在Java代码中设置了
