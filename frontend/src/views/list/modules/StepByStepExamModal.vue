@@ -89,6 +89,110 @@
             />
             分
           </a-form-item>
+
+          <a-form-item
+            label="写作题"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="听力A部分"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIIAScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="听力B部分"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIIBScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="听力C部分"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIICScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="阅读A部分"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIIIAScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="阅读B部分"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIIIBScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="阅读C部分"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIIICScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
+
+          <a-form-item
+            label="翻译题"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+          >
+            <a-input-number
+              :min="1"
+              :max="20"
+              v-decorator="['partIVScore', {initialValue: '5',rules: [{required: true}]}]"
+            />
+            分
+          </a-form-item>
         </div>
 
         <div v-show="currentStep === 2">
@@ -154,6 +258,166 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+
+          <a-form-item
+            label="选择写作题"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择写作题"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIChange"
+            >
+              <a-select-option v-for="partI in partIs" :value="partI.name" :key="partI.id">
+                {{ partI.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择听力A部分题目"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择听力A部分题目"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIIAChange"
+            >
+              <a-select-option v-for="partIIA in partIIAs" :value="partIIA.name" :key="partIIA.id">
+                {{ partIIA.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择听力B部分题目"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择听力B部分题目"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIIBChange"
+            >
+              <a-select-option v-for="partIIB in partIIBs" :value="partIIB.name" :key="partIIB.id">
+                {{ partIIB.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择听力C部分题目"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择听力C部分题目"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIICChange"
+            >
+              <a-select-option v-for="partIIC in partIICs" :value="partIIC.name" :key="partIIC.id">
+                {{ partIIC.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择阅读A部分题目"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择阅读A部分题目"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIIIAChange"
+            >
+              <a-select-option v-for="partIIIA in partIIIAs" :value="partIIIA.name" :key="partIIIA.id">
+                {{ partIIIA.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择阅读B部分题目"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择阅读B部分题目"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIIIBChange"
+            >
+              <a-select-option v-for="partIIIB in partIIIBs" :value="partIIIB.name" :key="partIIIB.id">
+                {{ partIIIB.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择阅读C部分题目"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择阅读C部分题目"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIIICChange"
+            >
+              <a-select-option v-for="partIIIC in partIIICs" :value="partIIIC.name" :key="partIIIC.id">
+                {{ partIIIC.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+
+          <a-form-item
+            label="选择翻译题"
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            enterButton="Search"
+          >
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择翻译题"
+              style="width: 100%"
+              @popupScroll="popupScroll"
+              @change="handlePartIVChange"
+            >
+              <a-select-option v-for="partIV in partIVs" :value="partIV.name" :key="partIV.id">
+                {{ partIV.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
         </div>
       </a-form>
     </a-spin>
@@ -202,7 +466,23 @@ export default {
       // 多选题对象列表
       checks: [],
       // 判断题对象列表
-      judges: []
+      judges: [],
+      // 写作题对象列表
+      partIs: [],
+      // 听力A部分对象列表
+      partIIAs: [],
+      // 听力B部分对象列表
+      partIIBs: [],
+      // 听力C部分对象列表
+      partIICs: [],
+      // 阅读A部分对象列表
+      partIIIAs: [],
+      // 阅读B部分对象列表
+      partIIIBs: [],
+      // 阅读C部分对象列表
+      partIIICs: [],
+      // 翻译题对象列表
+      partIVs: []
     }
   },
   updated () {
@@ -236,6 +516,14 @@ export default {
           this.radios = res.data.radios
           this.checks = res.data.checks
           this.judges = res.data.judges
+          this.partIs = res.data.partIs
+          this.partIIAs = res.data.partIIAs
+          this.partIIBs = res.data.partIIBs
+          this.partIICs = res.data.partIICs
+          this.partIIIAs = res.data.partIIIAs
+          this.partIIIBs = res.data.partIIIBs
+          this.partIIICs = res.data.partIIICs
+          this.partIVs = res.data.partIVs
         } else {
           this.$notification.error({
             message: '获取问题列表失败',
@@ -274,6 +562,14 @@ export default {
         values.radios = this.radios
         values.checks = this.checks
         values.judges = this.judges
+        values.partIs = this.partIs
+        values.partIIAs = this.partIIAs
+        values.partIIBs = this.partIIBs
+        values.partIICs = this.partIICs
+        values.partIIIAs = this.partIIIAs
+        values.partIIIBs = this.partIIIBs
+        values.partIIICs = this.partIIICs
+        values.partIVs = this.partIVs
         console.log('提交数据到后端')
         this.confirmLoading = false
         if (!errors) {
@@ -383,6 +679,206 @@ export default {
         // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
         if (checked === false) {
           this.judges[i].checked = false
+        }
+      }
+    },
+
+    // 更新写作题信息
+    handlePartIChange (values) {
+      console.log(values)
+      // 更新写作题的信息
+      for (let i = 0; i < this.partIs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIs[i].checked = false
+        }
+      }
+    },
+
+    // 更新听力A部分信息
+    handlePartIIAChange (values) {
+      console.log(values)
+      // 更新听力A部分的信息
+      for (let i = 0; i < this.partIIAs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIIAs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIIAs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIIAs[i].checked = false
+        }
+      }
+    },
+
+    // 更新听力B部分信息
+    handlePartIIBChange (values) {
+      console.log(values)
+      // 更新听力B部分的信息
+      for (let i = 0; i < this.partIIBs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIIBs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIIBs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIIBs[i].checked = false
+        }
+      }
+    },
+
+    // 更新听力C部分信息
+    handlePartIICChange (values) {
+      console.log(values)
+      // 更新听力C部分的信息
+      for (let i = 0; i < this.partIICs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIICs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIICs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIICs[i].checked = false
+        }
+      }
+    },
+
+    // 更新阅读A部分信息
+    handlePartIIIAChange (values) {
+      console.log(values)
+      // 更新阅读A部分的信息
+      for (let i = 0; i < this.partIIIAs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIIIAs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIIIAs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIIIAs[i].checked = false
+        }
+      }
+    },
+
+    // 更新阅读B部分信息
+    handlePartIIIBChange (values) {
+      console.log(values)
+      // 更新阅读B部分的信息
+      for (let i = 0; i < this.partIIIBs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIIIBs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIIIBs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIIIBs[i].checked = false
+        }
+      }
+    },
+
+    // 更新阅读C部分信息
+    handlePartIIICChange (values) {
+      console.log(values)
+      // 更新阅读C部分的信息
+      for (let i = 0; i < this.partIIICs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIIICs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIIICs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIIICs[i].checked = false
+        }
+      }
+    },
+
+    // 更新翻译题信息
+    handlePartIVChange (values) {
+      console.log(values)
+      // 更新翻译题的信息
+      for (let i = 0; i < this.partIVs.length; i++) { // 遍历所有的题目的选项
+        // 取出一个选项的id
+        const name = this.partIVs[i].name
+        // 当前问题是否被问题创建者选中
+        let checked = false
+        for (let j = 0; j < values.length; j++) { // 拿着
+          const value = values[j]
+          if (name === value) {
+            // 说明这个问题被考试创建者选中
+            checked = true
+            this.partIVs[i].checked = true
+            break // 跳出内部的for循环
+          }
+        }
+        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
+        if (checked === false) {
+          this.partIVs[i].checked = false
         }
       }
     }
