@@ -4,46 +4,53 @@
       <a-form :form="form">
         <h3><b>题干：</b></h3>
         <div id="summernote-question-name-edit" />
-        <ul v-show="question.type==='多选题'">
-          <li v-for="option in question.options" :key="option.id">
-            <a-input v-model="option.content" />
-          </li>
-        </ul>
+        <!-- 非主观题显示选项列表 -->
+        <template v-if="!isSubjective">
+          <ul v-show="question.type==='多选题'">
+            <li v-for="option in question.options" :key="option.id">
+              <a-input v-model="option.content" />
+            </li>
+          </ul>
 
-        <ul v-show="question.type!=='多选题'">
-          <li v-for="option in question.options" :key="option.id">
-            <a-input v-model="option.content" />
-          </li>
-        </ul>
+          <ul v-show="question.type!=='多选题'">
+            <li v-for="option in question.options" :key="option.id">
+              <a-input v-model="option.content" />
+            </li>
+          </ul>
 
-        <h3><b>答案：</b></h3>
-        <ul v-show="question.type!=='多选题'">
-          <li>
-            <a-select :size="size" :value="answerOptionId" style="width: 100%" @change="handleSingleChange">
-              <a-select-option v-for="option in question.options" :key="option.id">
-                {{ option.content }}
-              </a-select-option>
-            </a-select>
-          </li>
-        </ul>
+          <h3><b>答案：</b></h3>
+          <ul v-show="question.type!=='多选题'">
+            <li>
+              <a-select :size="size" :value="answerOptionId" style="width: 100%" @change="handleSingleChange">
+                <a-select-option v-for="option in question.options" :key="option.id">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+            </li>
+          </ul>
 
-        <ul v-show="question.type==='多选题'">
-          <li>
-            <a-select
-              mode="multiple"
-              :size="size"
-              placeholder="Please select"
-              :value="answerOptionIds"
-              style="width: 100%"
-              @change="handleMultiChange"
-              @popupScroll="popupScroll"
-            >
-              <a-select-option v-for="option in question.options" :key="option.id">
-                {{ option.content }}
-              </a-select-option>
-            </a-select>
-          </li>
-        </ul>
+          <ul v-show="question.type==='多选题'">
+            <li>
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="Please select"
+                :value="answerOptionIds"
+                style="width: 100%"
+                @change="handleMultiChange"
+                @popupScroll="popupScroll"
+              >
+                <a-select-option v-for="option in question.options" :key="option.id">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+            </li>
+          </ul>
+        </template>
+        <!-- 主观题显示提示信息 -->
+        <template v-else>
+          <a-alert message="主观题不需要设置选项和答案" type="info" showIcon />
+        </template>
         <h3><b>解析：</b></h3>
         <div id="summernote-question-desc-edit" />
       </a-form>
@@ -68,7 +75,7 @@ export default {
       visible: false,
       size: 'default',
       confirmLoading: false,
-
+      isSubjective: false,
       form: this.$form.createForm(this),
       // 每个问题
       question: {},
@@ -131,17 +138,23 @@ export default {
       this.desc = record.description // 解析
       // 把当前的记录赋值到data中的变量
       this.question = record
+      // 判断是否是主观题（type_id为411或711）
+      this.isSubjective = this.question.typeId === 411 || this.question.typeId === 711
       // 上来先把之前的清理干净
       this.answerOptionId = ''
       this.answerOptionIds = []
       this.visible = true
-      // 单选题的处理情况,设置默认值
-      for (let i = 0; i < this.question.options.length; i++) {
-        if (this.question.options[i].answer === true) {
-          // 设置单选题或者判断题答案
-          this.answerOptionId = this.question.options[i].id
-          // 设置多选题的答案
-          this.answerOptionIds.push(this.question.options[i].id)
+      
+      // 非主观题才需要设置答案
+      if (!this.isSubjective) {
+        // 单选题的处理情况,设置默认值
+        for (let i = 0; i < this.question.options.length; i++) {
+          if (this.question.options[i].answer === true) {
+            // 设置单选题或者判断题答案
+            this.answerOptionId = this.question.options[i].id
+            // 设置多选题的答案
+            this.answerOptionIds.push(this.question.options[i].id)
+          }
         }
       }
     },
