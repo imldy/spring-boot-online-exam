@@ -378,6 +378,87 @@ public class ExamServiceImpl implements ExamService {
             judgeQuestionVoList.add(judgeQuestionVo);
         }
         examQuestionTypeVo.setExamQuestionSelectVoJudgeList(judgeQuestionVoList);
+
+        // 获取写作题列表
+        List<ExamQuestionSelectVo> partIQuestionVoList = new ArrayList<>();
+        List<Question> partIQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_I.getId());
+        for (Question question : partIQuestionList) {
+            ExamQuestionSelectVo partIQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIQuestionVo);
+            partIQuestionVoList.add(partIQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIList(partIQuestionVoList);
+
+        // 获取听力A部分题目列表
+        List<ExamQuestionSelectVo> partIIAQuestionVoList = new ArrayList<>();
+        List<Question> partIIAQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_II_A.getId());
+        for (Question question : partIIAQuestionList) {
+            ExamQuestionSelectVo partIIAQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIIAQuestionVo);
+            partIIAQuestionVoList.add(partIIAQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIIAList(partIIAQuestionVoList);
+
+        // 获取听力B部分题目列表
+        List<ExamQuestionSelectVo> partIIBQuestionVoList = new ArrayList<>();
+        List<Question> partIIBQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_II_B.getId());
+        for (Question question : partIIBQuestionList) {
+            ExamQuestionSelectVo partIIBQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIIBQuestionVo);
+            partIIBQuestionVoList.add(partIIBQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIIBList(partIIBQuestionVoList);
+
+        // 获取听力C部分题目列表
+        List<ExamQuestionSelectVo> partIICQuestionVoList = new ArrayList<>();
+        List<Question> partIICQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_II_C.getId());
+        for (Question question : partIICQuestionList) {
+            ExamQuestionSelectVo partIICQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIICQuestionVo);
+            partIICQuestionVoList.add(partIICQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIICList(partIICQuestionVoList);
+
+        // 获取阅读A部分题目列表
+        List<ExamQuestionSelectVo> partIIIAQuestionVoList = new ArrayList<>();
+        List<Question> partIIIAQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_III_A.getId());
+        for (Question question : partIIIAQuestionList) {
+            ExamQuestionSelectVo partIIIAQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIIIAQuestionVo);
+            partIIIAQuestionVoList.add(partIIIAQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIIIAList(partIIIAQuestionVoList);
+
+        // 获取阅读B部分题目列表
+        List<ExamQuestionSelectVo> partIIIBQuestionVoList = new ArrayList<>();
+        List<Question> partIIIBQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_III_B.getId());
+        for (Question question : partIIIBQuestionList) {
+            ExamQuestionSelectVo partIIIBQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIIIBQuestionVo);
+            partIIIBQuestionVoList.add(partIIIBQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIIIBList(partIIIBQuestionVoList);
+
+        // 获取阅读C部分题目列表
+        List<ExamQuestionSelectVo> partIIICQuestionVoList = new ArrayList<>();
+        List<Question> partIIICQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_III_C.getId());
+        for (Question question : partIIICQuestionList) {
+            ExamQuestionSelectVo partIIICQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIIICQuestionVo);
+            partIIICQuestionVoList.add(partIIICQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIIICList(partIIICQuestionVoList);
+
+        // 获取翻译题列表
+        List<ExamQuestionSelectVo> partIVQuestionVoList = new ArrayList<>();
+        List<Question> partIVQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.PART_IV.getId());
+        for (Question question : partIVQuestionList) {
+            ExamQuestionSelectVo partIVQuestionVo = new ExamQuestionSelectVo();
+            BeanUtils.copyProperties(question, partIVQuestionVo);
+            partIVQuestionVoList.add(partIVQuestionVo);
+        }
+        examQuestionTypeVo.setExamQuestionSelectVoPartIVList(partIVQuestionVoList);
+
         return examQuestionTypeVo;
     }
 

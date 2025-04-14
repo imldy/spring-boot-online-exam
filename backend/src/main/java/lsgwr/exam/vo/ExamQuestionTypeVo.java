@@ -18,4 +18,28 @@ public class ExamQuestionTypeVo {
 
     @JsonProperty("judges")
     private List<ExamQuestionSelectVo> examQuestionSelectVoJudgeList;
+
+    @JsonProperty("partIs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIList;
+
+    @JsonProperty("partIIAs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIAList;
+
+    @JsonProperty("partIIBs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIBList;
+
+    @JsonProperty("partIICs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIICList;
+
+    @JsonProperty("partIIIAs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIIAList;
+
+    @JsonProperty("partIIIBs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIIBList;
+
+    @JsonProperty("partIIICs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIICList;
+
+    @JsonProperty("partIVs")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIVList;
 }
