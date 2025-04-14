@@ -43,59 +43,64 @@
         </div>
 
         <div v-show="currentStep === 2">
-          <!-- 非判断题的时候显示 -->
-          <a-form-item label="创建选项" :labelCol="labelCol" :wrapperCol="wrapperCol" v-if="type!==3">
-            <a-input
-              v-decorator="['option', { rules: [{required: true}]}]"
-              placeholder="输入内容后按Enter添加到下方选项列表"
-              @pressEnter="addOption()"
-            />
-          </a-form-item>
+          <!-- 非主观题的时候显示选项相关的内容 -->
+          <template v-if="!isSubjective">
+            <a-form-item label="创建选项" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-input
+                v-decorator="['option', { rules: [{required: true}]}]"
+                placeholder="输入内容后按Enter添加到下方选项列表"
+                @pressEnter="addOption()"
+              />
+            </a-form-item>
 
-          <a-form-item label="设置答案" :labelCol="labelCol" :wrapperCol="wrapperCol" enterButton="Search">
-            <!-- 注意这里要按照单选、多选和判断进行区分 -->
-            <!-- 单选 -->
-            <a-select
-              style="width: 100%"
-              placeholder="请选择单选题的答案"
-              v-if="type===1"
-              @change="handleSingleChange"
-              :value="answerOption"
-            >
+            <a-form-item label="设置答案" :labelCol="labelCol" :wrapperCol="wrapperCol" enterButton="Search">
+              <!-- 注意这里要按照单选、多选和判断进行区分 -->
+              <!-- 单选 -->
+              <a-select
+                style="width: 100%"
+                placeholder="请选择单选题的答案"
+                v-if="type===1"
+                @change="handleSingleChange"
+                :value="answerOption"
+              >
+                <a-select-option v-for="(option,index) in options" :value="option.content" :key="index">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+              <!-- 多选 -->
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="请选择多选题的答案"
+                :value="answerOptions"
+                v-if="type===2"
+                style="width: 100%"
+                @popupScroll="popupScroll"
+                @change="handleMultiChange"
+              >
+                <a-select-option v-for="(option, index) in options" :value="option.content" :key="index">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+              <!-- 判断 -->
+              <a-select
+                style="width: 100%"
+                placeholder="请选择判断题的答案"
+                v-if="type===3"
+                @change="handleSingleChange"
+                :value="answerOption"
+              >
 
-              <a-select-option v-for="(option,index) in options" :value="option.content" :key="index">
-                {{ option.content }}
-              </a-select-option>
-            </a-select>
-            <!-- 多选 -->
-            <a-select
-              mode="multiple"
-              :size="size"
-              placeholder="请选择多选题的答案"
-              :value="answerOptions"
-              v-if="type===2"
-              style="width: 100%"
-              @popupScroll="popupScroll"
-              @change="handleMultiChange"
-            >
-              <a-select-option v-for="(option, index) in options" :value="option.content" :key="index">
-                {{ option.content }}
-              </a-select-option>
-            </a-select>
-            <!-- 判断，本质上和单选一样 -->
-            <a-select
-              style="width: 100%"
-              placeholder="请选择判断题的答案"
-              v-if="type===3"
-              @change="handleSingleChange"
-              :value="answerOption"
-            >
-
-              <a-select-option v-for="(option,index) in options" :value="option.content" :key="index">
-                {{ option.content }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
+                <a-select-option v-for="(option,index) in options" :value="option.content" :key="index">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </template>
+          <!-- 主观题显示提示信息 -->
+          <template v-else>
+            <a-alert message="主观题不需要设置选项和答案" type="info" showIcon />
+          </template>
         </div>
         <!-- step1 end -->
       </a-form>
@@ -155,7 +160,8 @@ export default {
           content: '错误'
         }
       ],
-      type: ''
+      type: '',
+      isSubjective: false
     }
   },
   updated () {
@@ -235,6 +241,11 @@ export default {
             this.currentStep = currentStep
             // 设置题目类型(单选1、多选2或判断3)，用于最后一步问题选项的展示
             this.type = values.type
+            // 判断是否是主观题
+            this.isSubjective = this.type === 411 || this.type === 711
+            if (this.isSubjective) {
+              return
+            }
             // 清空必要的数据
             this.answerOptions = []
             this.answerOption = ''

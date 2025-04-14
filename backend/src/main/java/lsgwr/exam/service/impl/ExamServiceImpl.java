@@ -174,40 +174,52 @@ public class ExamServiceImpl implements ExamService {
         Question question = new Question();
         // 把能复制的属性都复制过来
         BeanUtils.copyProperties(questionCreateVo, question);
-        // 设置下questionOptionIds和questionAnswerOptionIds，需要自己用Hutool生成下
-        List<QuestionOption> questionOptionList = new ArrayList<>();
-        List<QuestionOptionCreateVo> questionOptionCreateVoList = questionCreateVo.getQuestionOptionCreateVoList();
-        for (QuestionOptionCreateVo questionOptionCreateVo : questionOptionCreateVoList) {
-            QuestionOption questionOption = new QuestionOption();
-            // 设置选项的的内容
-            questionOption.setQuestionOptionContent(questionOptionCreateVo.getQuestionOptionContent());
-            // 设置选项的id
-            questionOption.setQuestionOptionId(IdUtil.simpleUUID());
-            questionOptionList.add(questionOption);
-        }
-        // 把选项都存起来，然后才能用于下面设置Question的questionOptionIds和questionAnswerOptionIds
-        questionOptionRepository.saveAll(questionOptionList);
-        String questionOptionIds = "";
-        String questionAnswerOptionIds = "";
-        // 经过上面的saveAll方法，所有的option的主键id都已经持久化了
-        for (int i = 0; i < questionOptionCreateVoList.size(); i++) {
-            // 获取指定选项
-            QuestionOptionCreateVo questionOptionCreateVo = questionOptionCreateVoList.get(i);
-            // 获取保存后的指定对象
-            QuestionOption questionOption = questionOptionList.get(i);
-            questionOptionIds += questionOption.getQuestionOptionId() + "-";
-            if (questionOptionCreateVo.getAnswer()) {
-                // 如果是答案的话
-                questionAnswerOptionIds += questionOption.getQuestionOptionId() + "-";
+        // 判断是否是主观题
+        boolean isSubjective = questionCreateVo.getQuestionTypeId().equals(411) ||
+                             questionCreateVo.getQuestionTypeId().equals(711);
+        if (!isSubjective) {
+            // 客观题处理逻辑
+            // 设置下questionOptionIds和questionAnswerOptionIds，需要自己用Hutool生成下
+            List<QuestionOption> questionOptionList = new ArrayList<>();
+            List<QuestionOptionCreateVo> questionOptionCreateVoList = questionCreateVo.getQuestionOptionCreateVoList();
+            for (QuestionOptionCreateVo questionOptionCreateVo : questionOptionCreateVoList) {
+                QuestionOption questionOption = new QuestionOption();
+                // 设置选项的的内容
+                questionOption.setQuestionOptionContent(questionOptionCreateVo.getQuestionOptionContent());
+                // 设置选项的id
+                questionOption.setQuestionOptionId(IdUtil.simpleUUID());
+                questionOptionList.add(questionOption);
             }
+            // 把选项都存起来，然后才能用于下面设置Question的questionOptionIds和questionAnswerOptionIds
+            questionOptionRepository.saveAll(questionOptionList);
+            String questionOptionIds = "";
+            String questionAnswerOptionIds = "";
+            // 经过上面的saveAll方法，所有的option的主键id都已经持久化了
+            for (int i = 0; i < questionOptionCreateVoList.size(); i++) {
+            // 获取指定选项
+                QuestionOptionCreateVo questionOptionCreateVo = questionOptionCreateVoList.get(i);
+                // 获取保存后的指定对象
+                QuestionOption questionOption = questionOptionList.get(i);
+                questionOptionIds += questionOption.getQuestionOptionId() + "-";
+                if (questionOptionCreateVo.getAnswer()) {
+                // 如果是答案的话
+                    questionAnswerOptionIds += questionOption.getQuestionOptionId() + "-";
+                }
+            }
+            // 把字符串最后面的"-"给去掉
+            questionAnswerOptionIds = replaceLastSeparator(questionAnswerOptionIds);
+            questionOptionIds = replaceLastSeparator(questionOptionIds);
+            // 设置选项id组成的字符串
+            question.setQuestionOptionIds(questionOptionIds);
+            // 设置答案选项id组成的字符串
+            question.setQuestionAnswerOptionIds(questionAnswerOptionIds);
+        } else {
+            // 主观题处理逻辑
+            // 设置选项id组成的字符串
+            question.setQuestionOptionIds("");
+            // 设置答案选项id组成的字符串
+            question.setQuestionAnswerOptionIds("");
         }
-        // 把字符串最后面的"-"给去掉
-        questionAnswerOptionIds = replaceLastSeparator(questionAnswerOptionIds);
-        questionOptionIds = replaceLastSeparator(questionOptionIds);
-        // 设置选项id组成的字符串
-        question.setQuestionOptionIds(questionOptionIds);
-        // 设置答案选项id组成的字符串
-        question.setQuestionAnswerOptionIds(questionAnswerOptionIds);
         // 自己生成问题的id
         question.setQuestionId(IdUtil.simpleUUID());
         // 先把创建时间和更新时间每次都取当前时间吧
