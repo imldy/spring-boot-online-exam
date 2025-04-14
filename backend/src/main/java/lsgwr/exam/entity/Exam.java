@@ -26,6 +26,14 @@ public class Exam {
     private String examQuestionIdsRadio;
     private String examQuestionIdsCheck;
     private String examQuestionIdsJudge;
+    private String examQuestionIdsPartI;        // Part I Writing
+    private String examQuestionIdsPartIIA;      // Part II Listening Section A
+    private String examQuestionIdsPartIIB;      // Part II Listening Section B
+    private String examQuestionIdsPartIIC;      // Part II Listening Section C
+    private String examQuestionIdsPartIIIA;     // Part III Reading Section A
+    private String examQuestionIdsPartIIIB;     // Part III Reading Section B
+    private String examQuestionIdsPartIIIC;     // Part III Reading Section C
+    private String examQuestionIdsPartIV;       // Part IV Translation
     private Integer examScore;
     private Integer examScoreRadio;
     private Integer examScoreCheck;
