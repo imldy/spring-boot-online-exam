@@ -9,8 +9,8 @@
         <span>基于SpringBoot的大学生英语四六级模拟考试系统</span>
       </p>
       <div class="button-wrapper">
-        <a @click="$router.push({ name: 'docs' })">
-          <a-button style="margin: 0 16px;">开始使用</a-button>
+        <a @click="$router.push({ name: 'exam-card' })">
+          <a-button style="margin: 0 16px;">开始考试</a-button>
         </a>
       </div>
     </div>
