@@ -12,43 +12,43 @@
 import List from './List'
 const featuresCN = [
   {
-    title: '优雅美观',
-    content: '基于 Ant Design 体系精心设计',
+    title: '全真模拟',
+    content: '完全模拟真实CET考试环境，让您提前适应考试节奏',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/VriUmzNjDnjoFoFFZvuh.svg',
     color: '#13C2C2',
     shadowColor: 'rgba(19,194,194,.12)'
   },
   {
-    title: '常见设计模式',
-    content: '提炼自中后台应用的典型页面和场景',
+    title: '智能评分',
+    content: '采用先进评分算法，提供客观准确的成绩评估',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/smwQOoxCjXVbNAKMqvWk.svg',
     color: '#2F54EB',
     shadowColor: 'rgba(47,84,235,.12)'
   },
   {
-    title: '最新技术栈',
-    content: '使用 Vue/vuex/antd 等前端前沿技术开发',
+    title: '真题题库',
+    content: '收录历年真题，提供最权威的备考资料',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/hBbIHzUsSbSxrhoRFYzi.svg',
     color: '#F5222D',
     shadowColor: 'rgba(245,34,45,.12)'
   },
   {
-    title: '响应式',
-    content: '针对不同屏幕大小设计',
+    title: '错题分析',
+    content: '智能分析错题，针对性提供学习建议',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/BISfzKcCNCYFmTYcUygW.svg',
     color: '#1AC44D',
     shadowColor: 'rgba(26,196,77,.12)'
   },
   {
-    title: '最佳实践',
-    content: '良好的工程实践助你持续产出高质量代码',
+    title: '学习计划',
+    content: '根据个人水平定制专属学习计划',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/pbmKMSFpLurLALLNliUQ.svg',
     color: '#FA8C16',
     shadowColor: 'rgba(250,140,22,.12)'
   },
   {
-    title: 'UI 测试',
-    content: '自动化测试保障前端产品质量',
+    title: '进度追踪',
+    content: '实时记录学习进度，清晰掌握备考情况',
     src: 'https://gw.alipayobjects.com/zos/rmsportal/RpJIQitGbSCHwLMimybX.svg',
     color: '#1890FF',
     shadowColor: 'rgba(24,144,255,.12)'
