@@ -59,7 +59,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartI', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -72,7 +72,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIIAScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIIA', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -85,7 +85,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIIBScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIIB', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -98,7 +98,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIICScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIIC', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -111,7 +111,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIIIAScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIIIA', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -124,7 +124,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIIIBScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIIIB', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -137,7 +137,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIIICScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIIIC', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -150,7 +150,7 @@
             <a-input-number
               :min="1"
               :max="20"
-              v-decorator="['partIVScore', {initialValue: '5',rules: [{required: true}]}]"
+              v-decorator="['examScorePartIV', {initialValue: '5',rules: [{required: true}]}]"
             />
             分
           </a-form-item>
@@ -336,7 +336,7 @@ import { getExamQuestionTypeList, examCreate } from '../../../api/exam'
 
 const stepForms = [
   ['name', 'elapse', 'desc'],
-  ['partIScore', 'partIIAScore', 'partIIBScore', 'partIICScore', 'partIIIAScore', 'partIIIBScore', 'partIIICScore', 'partIVScore'],
+  ['examScorePartI', 'examScorePartIIA', 'examScorePartIIB', 'examScorePartIIC', 'examScorePartIIIA', 'examScorePartIIIB', 'examScorePartIIIC', 'examScorePartIV'],
   ['option']
 ]
 
