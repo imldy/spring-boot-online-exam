@@ -962,6 +962,14 @@ public class ExamServiceImpl implements ExamService {
         questionIdList.addAll(Arrays.asList(examDetailVo.getRadioIds()));
         questionIdList.addAll(Arrays.asList(examDetailVo.getCheckIds()));
         questionIdList.addAll(Arrays.asList(examDetailVo.getJudgeIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIAIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIBIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIICIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIIAIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIIBIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIICIds()));
+        questionIdList.addAll(Arrays.asList(examDetailVo.getPartIVIds()));
         // 获取所有的问题对象
         List<Question> questionList = questionRepository.findAllById(questionIdList);
         HashMap<String, List<String>> answersRightMap = new HashMap<>();
