@@ -32,6 +32,30 @@ public class ExamVo {
     @JsonProperty("judges")
     private List<ExamQuestionSelectVo> examQuestionSelectVoJudgeList;
 
+    @JsonProperty("partI")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIList;
+
+    @JsonProperty("partIIA")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIAList;
+
+    @JsonProperty("partIIB")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIBList;
+
+    @JsonProperty("partIC")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIICList;
+
+    @JsonProperty("partIIIA")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIIAList;
+
+    @JsonProperty("partIIIB")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIIBList;
+
+    @JsonProperty("partIIIC")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIICList;
+
+    @JsonProperty("partIV")
+    private List<ExamQuestionSelectVo> examQuestionSelectVoPartIVList;
+
     @JsonProperty("score")
     private Integer examScore;
 
@@ -43,6 +67,30 @@ public class ExamVo {
 
     @JsonProperty("judgeScore")
     private Integer examScoreJudge;
+
+    @JsonProperty("partIScore")
+    private Integer examScorePartI;
+
+    @JsonProperty("partIIAScore")
+    private Integer examScorePartIIA;
+
+    @JsonProperty("partIIBScore")
+    private Integer examScorePartIIB;
+
+    @JsonProperty("partIICScore")
+    private Integer examScorePartIIC;
+
+    @JsonProperty("partIIIScore")
+    private Integer examScorePartIIIA;
+
+    @JsonProperty("partIIIBScore")
+    private Integer examScorePartIIIB;
+
+    @JsonProperty("partIIICScore")
+    private Integer examScorePartIIIC;
+
+    @JsonProperty("partIVScore")
+    private Integer examScorePartIV;
 
     /**
      * 考试的创建人，根据id从用户表中查取姓名

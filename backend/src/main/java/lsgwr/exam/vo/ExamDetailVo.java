@@ -28,4 +28,44 @@ public class ExamDetailVo {
      */
     private String[] judgeIds;
 
+    /**
+     * Part I题型的id数组
+     */
+    private String[] partIIds;
+
+    /**
+     * Part IIA题型的id数组
+     */
+    private String[] partIIAIds;
+
+    /**
+     * Part IIB题型的id数组
+     */
+    private String[] partIIBIds;
+
+    /**
+     * Part IIC题型的id数组
+     */
+    private String[] partIICIds;
+
+    /**
+     * Part IIIA题型的id数组
+     */
+    private String[] partIIIAIds;
+
+    /**
+     * Part IIIB题型的id数组
+     */
+    private String[] partIIIBIds;
+
+    /**
+     * Part IIIC题型的id数组
+     */
+    private String[] partIIICIds;
+
+    /**
+     * Part IV题型的id数组
+     */
+    private String[] partIVIds;
+
 }

@@ -38,6 +38,14 @@ public class Exam {
     private Integer examScoreRadio;
     private Integer examScoreCheck;
     private Integer examScoreJudge;
+    private Integer examScorePartI;
+    private Integer examScorePartIIA;
+    private Integer examScorePartIIB;
+    private Integer examScorePartIIC;
+    private Integer examScorePartIIIA;
+    private Integer examScorePartIIIB;
+    private Integer examScorePartIIIC;
+    private Integer examScorePartIV;
     private String examCreatorId;
     private Integer examTimeLimit;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -481,10 +481,32 @@ public class ExamServiceImpl implements ExamService {
         String radioIdsStr = "";
         String checkIdsStr = "";
         String judgeIdsStr = "";
+        String partIIdsStr = "";
+        String partIIAIdsStr = "";
+        String partIIBIdsStr = "";
+        String partIICIdsStr = "";
+        String partIIIAIdsStr = "";
+        String partIIIBIdsStr = "";
+        String partIIICIdsStr = "";
+        String partIVIdsStr = "";
+        
         List<ExamQuestionSelectVo> radios = examCreateVo.getRadios();
         List<ExamQuestionSelectVo> checks = examCreateVo.getChecks();
         List<ExamQuestionSelectVo> judges = examCreateVo.getJudges();
+        List<ExamQuestionSelectVo> partIs = examCreateVo.getPartIs();
+        List<ExamQuestionSelectVo> partIIAs = examCreateVo.getPartIIAs();
+        List<ExamQuestionSelectVo> partIIBs = examCreateVo.getPartIIBs();
+        List<ExamQuestionSelectVo> partIICs = examCreateVo.getPartIICs();
+        List<ExamQuestionSelectVo> partIIIAs = examCreateVo.getPartIIIAs();
+        List<ExamQuestionSelectVo> partIIIBs = examCreateVo.getPartIIIBs();
+        List<ExamQuestionSelectVo> partIIICs = examCreateVo.getPartIIICs();
+        List<ExamQuestionSelectVo> partIVs = examCreateVo.getPartIVs();
+        
         int radioCnt = 0, checkCnt = 0, judgeCnt = 0;
+        int partICnt = 0, partIIACnt = 0, partIIBCnt = 0, partIICCnt = 0;
+        int partIIIACnt = 0, partIIIBCnt = 0, partIIICCnt = 0, partIVCnt = 0;
+        
+        // 处理单选题
         for (ExamQuestionSelectVo radio : radios) {
             if (radio.getChecked()) {
                 radioIdsStr += radio.getQuestionId() + "-";
@@ -492,6 +514,8 @@ public class ExamServiceImpl implements ExamService {
             }
         }
         radioIdsStr = replaceLastSeparator(radioIdsStr);
+        
+        // 处理多选题
         for (ExamQuestionSelectVo check : checks) {
             if (check.getChecked()) {
                 checkIdsStr += check.getQuestionId() + "-";
@@ -499,6 +523,8 @@ public class ExamServiceImpl implements ExamService {
             }
         }
         checkIdsStr = replaceLastSeparator(checkIdsStr);
+        
+        // 处理判断题
         for (ExamQuestionSelectVo judge : judges) {
             if (judge.getChecked()) {
                 judgeIdsStr += judge.getQuestionId() + "-";
@@ -506,14 +532,109 @@ public class ExamServiceImpl implements ExamService {
             }
         }
         judgeIdsStr = replaceLastSeparator(judgeIdsStr);
-        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr);
-        // 设置各个题目的id
+        
+        // 处理Part I写作题
+        for (ExamQuestionSelectVo partI : partIs) {
+            if (partI.getChecked()) {
+                partIIdsStr += partI.getQuestionId() + "-";
+                partICnt++;
+            }
+        }
+        partIIdsStr = replaceLastSeparator(partIIdsStr);
+        
+        // 处理Part II听力A部分
+        for (ExamQuestionSelectVo partIIA : partIIAs) {
+            if (partIIA.getChecked()) {
+                partIIAIdsStr += partIIA.getQuestionId() + "-";
+                partIIACnt++;
+            }
+        }
+        partIIAIdsStr = replaceLastSeparator(partIIAIdsStr);
+        
+        // 处理Part II听力B部分
+        for (ExamQuestionSelectVo partIIB : partIIBs) {
+            if (partIIB.getChecked()) {
+                partIIBIdsStr += partIIB.getQuestionId() + "-";
+                partIIBCnt++;
+            }
+        }
+        partIIBIdsStr = replaceLastSeparator(partIIBIdsStr);
+        
+        // 处理Part II听力C部分
+        for (ExamQuestionSelectVo partIIC : partIICs) {
+            if (partIIC.getChecked()) {
+                partIICIdsStr += partIIC.getQuestionId() + "-";
+                partIICCnt++;
+            }
+        }
+        partIICIdsStr = replaceLastSeparator(partIICIdsStr);
+        
+        // 处理Part III阅读A部分
+        for (ExamQuestionSelectVo partIIIA : partIIIAs) {
+            if (partIIIA.getChecked()) {
+                partIIIAIdsStr += partIIIA.getQuestionId() + "-";
+                partIIIACnt++;
+            }
+        }
+        partIIIAIdsStr = replaceLastSeparator(partIIIAIdsStr);
+        
+        // 处理Part III阅读B部分
+        for (ExamQuestionSelectVo partIIIB : partIIIBs) {
+            if (partIIIB.getChecked()) {
+                partIIIBIdsStr += partIIIB.getQuestionId() + "-";
+                partIIIBCnt++;
+            }
+        }
+        partIIIBIdsStr = replaceLastSeparator(partIIIBIdsStr);
+        
+        // 处理Part III阅读C部分
+        for (ExamQuestionSelectVo partIIIC : partIIICs) {
+            if (partIIIC.getChecked()) {
+                partIIICIdsStr += partIIIC.getQuestionId() + "-";
+                partIIICCnt++;
+            }
+        }
+        partIIICIdsStr = replaceLastSeparator(partIIICIdsStr);
+        
+        // 处理Part IV翻译题
+        for (ExamQuestionSelectVo partIV : partIVs) {
+            if (partIV.getChecked()) {
+                partIVIdsStr += partIV.getQuestionId() + "-";
+                partIVCnt++;
+            }
+        }
+        partIVIdsStr = replaceLastSeparator(partIVIdsStr);
+        
+        // 设置所有题目的id
+        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr + "-" + 
+                              partIIdsStr + "-" + partIIAIdsStr + "-" + partIIBIdsStr + "-" + partIICIdsStr + "-" + 
+                              partIIIAIdsStr + "-" + partIIIBIdsStr + "-" + partIIICIdsStr + "-" + partIVIdsStr);
+        
+        // 设置各个题型的id
         exam.setExamQuestionIdsRadio(radioIdsStr);
         exam.setExamQuestionIdsCheck(checkIdsStr);
         exam.setExamQuestionIdsJudge(judgeIdsStr);
+        exam.setExamQuestionIdsPartI(partIIdsStr);
+        exam.setExamQuestionIdsPartIIA(partIIAIdsStr);
+        exam.setExamQuestionIdsPartIIB(partIIBIdsStr);
+        exam.setExamQuestionIdsPartIIC(partIICIdsStr);
+        exam.setExamQuestionIdsPartIIIA(partIIIAIdsStr);
+        exam.setExamQuestionIdsPartIIIB(partIIIBIdsStr);
+        exam.setExamQuestionIdsPartIIIC(partIIICIdsStr);
+        exam.setExamQuestionIdsPartIV(partIVIdsStr);
 
         // 计算总分数
-        int examScore = radioCnt * exam.getExamScoreRadio() + checkCnt * exam.getExamScoreCheck() + judgeCnt * exam.getExamScoreJudge();
+        int examScore = radioCnt * exam.getExamScoreRadio() + 
+                       checkCnt * exam.getExamScoreCheck() + 
+                       judgeCnt * exam.getExamScoreJudge() +
+                       partICnt * exam.getExamScorePartI() +
+                       partIIACnt * exam.getExamScorePartIIA() +
+                       partIIBCnt * exam.getExamScorePartIIB() +
+                       partIICCnt * exam.getExamScorePartIIC() +
+                       partIIIACnt * exam.getExamScorePartIIIA() +
+                       partIIIBCnt * exam.getExamScorePartIIIB() +
+                       partIIICCnt * exam.getExamScorePartIIIC() +
+                       partIVCnt * exam.getExamScorePartIV();
         exam.setExamScore(examScore);
         examRepository.save(exam);
         return exam;
@@ -529,10 +650,32 @@ public class ExamServiceImpl implements ExamService {
         String radioIdsStr = "";
         String checkIdsStr = "";
         String judgeIdsStr = "";
+        String partIIdsStr = "";
+        String partIIAIdsStr = "";
+        String partIIBIdsStr = "";
+        String partIICIdsStr = "";
+        String partIIIAIdsStr = "";
+        String partIIIBIdsStr = "";
+        String partIIICIdsStr = "";
+        String partIVIdsStr = "";
+        
         List<ExamQuestionSelectVo> radios = examVo.getExamQuestionSelectVoRadioList();
         List<ExamQuestionSelectVo> checks = examVo.getExamQuestionSelectVoCheckList();
         List<ExamQuestionSelectVo> judges = examVo.getExamQuestionSelectVoJudgeList();
+        List<ExamQuestionSelectVo> partIs = examVo.getExamQuestionSelectVoPartIList();
+        List<ExamQuestionSelectVo> partIIAs = examVo.getExamQuestionSelectVoPartIIAList();
+        List<ExamQuestionSelectVo> partIIBs = examVo.getExamQuestionSelectVoPartIIBList();
+        List<ExamQuestionSelectVo> partIICs = examVo.getExamQuestionSelectVoPartIICList();
+        List<ExamQuestionSelectVo> partIIIAs = examVo.getExamQuestionSelectVoPartIIIAList();
+        List<ExamQuestionSelectVo> partIIIBs = examVo.getExamQuestionSelectVoPartIIIBList();
+        List<ExamQuestionSelectVo> partIIICs = examVo.getExamQuestionSelectVoPartIIICList();
+        List<ExamQuestionSelectVo> partIVs = examVo.getExamQuestionSelectVoPartIVList();
+        
         int radioCnt = 0, checkCnt = 0, judgeCnt = 0;
+        int partICnt = 0, partIIACnt = 0, partIIBCnt = 0, partIICCnt = 0;
+        int partIIIACnt = 0, partIIIBCnt = 0, partIIICCnt = 0, partIVCnt = 0;
+        
+        // 处理单选题
         for (ExamQuestionSelectVo radio : radios) {
             if (radio.getChecked()) {
                 radioIdsStr += radio.getQuestionId() + "-";
@@ -540,6 +683,8 @@ public class ExamServiceImpl implements ExamService {
             }
         }
         radioIdsStr = replaceLastSeparator(radioIdsStr);
+        
+        // 处理多选题
         for (ExamQuestionSelectVo check : checks) {
             if (check.getChecked()) {
                 checkIdsStr += check.getQuestionId() + "-";
@@ -547,6 +692,8 @@ public class ExamServiceImpl implements ExamService {
             }
         }
         checkIdsStr = replaceLastSeparator(checkIdsStr);
+        
+        // 处理判断题
         for (ExamQuestionSelectVo judge : judges) {
             if (judge.getChecked()) {
                 judgeIdsStr += judge.getQuestionId() + "-";
@@ -554,14 +701,109 @@ public class ExamServiceImpl implements ExamService {
             }
         }
         judgeIdsStr = replaceLastSeparator(judgeIdsStr);
-        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr);
-        // 设置各个题目的id
+        
+        // 处理Part I写作题
+        for (ExamQuestionSelectVo partI : partIs) {
+            if (partI.getChecked()) {
+                partIIdsStr += partI.getQuestionId() + "-";
+                partICnt++;
+            }
+        }
+        partIIdsStr = replaceLastSeparator(partIIdsStr);
+        
+        // 处理Part II听力A部分
+        for (ExamQuestionSelectVo partIIA : partIIAs) {
+            if (partIIA.getChecked()) {
+                partIIAIdsStr += partIIA.getQuestionId() + "-";
+                partIIACnt++;
+            }
+        }
+        partIIAIdsStr = replaceLastSeparator(partIIAIdsStr);
+        
+        // 处理Part II听力B部分
+        for (ExamQuestionSelectVo partIIB : partIIBs) {
+            if (partIIB.getChecked()) {
+                partIIBIdsStr += partIIB.getQuestionId() + "-";
+                partIIBCnt++;
+            }
+        }
+        partIIBIdsStr = replaceLastSeparator(partIIBIdsStr);
+        
+        // 处理Part II听力C部分
+        for (ExamQuestionSelectVo partIIC : partIICs) {
+            if (partIIC.getChecked()) {
+                partIICIdsStr += partIIC.getQuestionId() + "-";
+                partIICCnt++;
+            }
+        }
+        partIICIdsStr = replaceLastSeparator(partIICIdsStr);
+        
+        // 处理Part III阅读A部分
+        for (ExamQuestionSelectVo partIIIA : partIIIAs) {
+            if (partIIIA.getChecked()) {
+                partIIIAIdsStr += partIIIA.getQuestionId() + "-";
+                partIIIACnt++;
+            }
+        }
+        partIIIAIdsStr = replaceLastSeparator(partIIIAIdsStr);
+        
+        // 处理Part III阅读B部分
+        for (ExamQuestionSelectVo partIIIB : partIIIBs) {
+            if (partIIIB.getChecked()) {
+                partIIIBIdsStr += partIIIB.getQuestionId() + "-";
+                partIIIBCnt++;
+            }
+        }
+        partIIIBIdsStr = replaceLastSeparator(partIIIBIdsStr);
+        
+        // 处理Part III阅读C部分
+        for (ExamQuestionSelectVo partIIIC : partIIICs) {
+            if (partIIIC.getChecked()) {
+                partIIICIdsStr += partIIIC.getQuestionId() + "-";
+                partIIICCnt++;
+            }
+        }
+        partIIICIdsStr = replaceLastSeparator(partIIICIdsStr);
+        
+        // 处理Part IV翻译题
+        for (ExamQuestionSelectVo partIV : partIVs) {
+            if (partIV.getChecked()) {
+                partIVIdsStr += partIV.getQuestionId() + "-";
+                partIVCnt++;
+            }
+        }
+        partIVIdsStr = replaceLastSeparator(partIVIdsStr);
+        
+        // 设置所有题目的id
+        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr + "-" + 
+                              partIIdsStr + "-" + partIIAIdsStr + "-" + partIIBIdsStr + "-" + partIICIdsStr + "-" + 
+                              partIIIAIdsStr + "-" + partIIIBIdsStr + "-" + partIIICIdsStr + "-" + partIVIdsStr);
+        
+        // 设置各个题型的id
         exam.setExamQuestionIdsRadio(radioIdsStr);
         exam.setExamQuestionIdsCheck(checkIdsStr);
         exam.setExamQuestionIdsJudge(judgeIdsStr);
+        exam.setExamQuestionIdsPartI(partIIdsStr);
+        exam.setExamQuestionIdsPartIIA(partIIAIdsStr);
+        exam.setExamQuestionIdsPartIIB(partIIBIdsStr);
+        exam.setExamQuestionIdsPartIIC(partIICIdsStr);
+        exam.setExamQuestionIdsPartIIIA(partIIIAIdsStr);
+        exam.setExamQuestionIdsPartIIIB(partIIIBIdsStr);
+        exam.setExamQuestionIdsPartIIIC(partIIICIdsStr);
+        exam.setExamQuestionIdsPartIV(partIVIdsStr);
 
         // 计算总分数
-        int examScore = radioCnt * exam.getExamScoreRadio() + checkCnt * exam.getExamScoreCheck() + judgeCnt * exam.getExamScoreJudge();
+        int examScore = radioCnt * exam.getExamScoreRadio() + 
+                       checkCnt * exam.getExamScoreCheck() + 
+                       judgeCnt * exam.getExamScoreJudge() +
+                       partICnt * exam.getExamScorePartI() +
+                       partIIACnt * exam.getExamScorePartIIA() +
+                       partIIBCnt * exam.getExamScorePartIIB() +
+                       partIICCnt * exam.getExamScorePartIIC() +
+                       partIIIACnt * exam.getExamScorePartIIIA() +
+                       partIIIBCnt * exam.getExamScorePartIIIB() +
+                       partIIICCnt * exam.getExamScorePartIIIC() +
+                       partIVCnt * exam.getExamScorePartIV();
         exam.setExamScore(examScore);
         examRepository.save(exam);
         return exam;
@@ -588,6 +830,14 @@ public class ExamServiceImpl implements ExamService {
         examDetailVo.setRadioIds(exam.getExamQuestionIdsRadio().split("-"));
         examDetailVo.setCheckIds(exam.getExamQuestionIdsCheck().split("-"));
         examDetailVo.setJudgeIds(exam.getExamQuestionIdsJudge().split("-"));
+        examDetailVo.setPartIIds(exam.getExamQuestionIdsPartI().split("-"));
+        examDetailVo.setPartIIAIds(exam.getExamQuestionIdsPartIIA().split("-"));
+        examDetailVo.setPartIIBIds(exam.getExamQuestionIdsPartIIB().split("-"));
+        examDetailVo.setPartIICIds(exam.getExamQuestionIdsPartIIC().split("-"));
+        examDetailVo.setPartIIIAIds(exam.getExamQuestionIdsPartIIIA().split("-"));
+        examDetailVo.setPartIIIBIds(exam.getExamQuestionIdsPartIIIB().split("-"));
+        examDetailVo.setPartIIICIds(exam.getExamQuestionIdsPartIIIC().split("-"));
+        examDetailVo.setPartIVIds(exam.getExamQuestionIdsPartIV().split("-"));
         return examDetailVo;
     }
 
@@ -603,13 +853,40 @@ public class ExamServiceImpl implements ExamService {
         List<String> radioIdList = Arrays.asList(examDetailVo.getRadioIds());
         List<String> checkIdList = Arrays.asList(examDetailVo.getCheckIds());
         List<String> judgeIdList = Arrays.asList(examDetailVo.getJudgeIds());
+        List<String> partIIdList = Arrays.asList(examDetailVo.getPartIIds());
+        List<String> partIIAIdList = Arrays.asList(examDetailVo.getPartIIAIds());
+        List<String> partIIBIdList = Arrays.asList(examDetailVo.getPartIIBIds());
+        List<String> partIICIdList = Arrays.asList(examDetailVo.getPartIICIds());
+        List<String> partIIIAIdList = Arrays.asList(examDetailVo.getPartIIIAIds());
+        List<String> partIIIBIdList = Arrays.asList(examDetailVo.getPartIIIBIds());
+        List<String> partIIICIdList = Arrays.asList(examDetailVo.getPartIIICIds());
+        List<String> partIVIdList = Arrays.asList(examDetailVo.getPartIVIds());
+        
         questionIds.addAll(radioIdList);
         questionIds.addAll(checkIdList);
         questionIds.addAll(judgeIdList);
+        questionIds.addAll(partIIdList);
+        questionIds.addAll(partIIAIdList);
+        questionIds.addAll(partIIBIdList);
+        questionIds.addAll(partIICIdList);
+        questionIds.addAll(partIIIAIdList);
+        questionIds.addAll(partIIIBIdList);
+        questionIds.addAll(partIIICIdList);
+        questionIds.addAll(partIVIdList);
+        
         // 2.2 每种题目的分数
         int radioScore = exam.getExamScoreRadio();
         int checkScore = exam.getExamScoreCheck();
         int judgeScore = exam.getExamScoreJudge();
+        int partIScore = exam.getExamScorePartI();
+        int partIIAScore = exam.getExamScorePartIIA();
+        int partIIBScore = exam.getExamScorePartIIB();
+        int partIICScore = exam.getExamScorePartIIC();
+        int partIIIAScore = exam.getExamScorePartIIIA();
+        int partIIIBScore = exam.getExamScorePartIIIB();
+        int partIIICScore = exam.getExamScorePartIIIC();
+        int partIVScore = exam.getExamScorePartIV();
+        
         // 2.3 根据问题id的数组拿到所有的问题对象，供下面步骤用
         List<Question> questionList = questionRepository.findAllById(questionIds);
         Map<String, Question> questionMap = new HashMap<>();
@@ -649,6 +926,30 @@ public class ExamServiceImpl implements ExamService {
                 }
                 if (judgeIdList.contains(questionId)) {
                     score = judgeScore;
+                }
+                if (partIIdList.contains(questionId)) {
+                    score = partIScore;
+                }
+                if (partIIAIdList.contains(questionId)) {
+                    score = partIIAScore;
+                }
+                if (partIIBIdList.contains(questionId)) {
+                    score = partIIBScore;
+                }
+                if (partIICIdList.contains(questionId)) {
+                    score = partIICScore;
+                }
+                if (partIIIAIdList.contains(questionId)) {
+                    score = partIIIAScore;
+                }
+                if (partIIIBIdList.contains(questionId)) {
+                    score = partIIIBScore;
+                }
+                if (partIIICIdList.contains(questionId)) {
+                    score = partIIICScore;
+                }
+                if (partIVIdList.contains(questionId)) {
+                    score = partIVScore;
                 }
                 // 累计本次考试得分
                 totalScore += score;

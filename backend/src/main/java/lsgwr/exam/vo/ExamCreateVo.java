@@ -59,4 +59,22 @@ public class ExamCreateVo {
      */
     @JsonProperty("judgeScore")
     private Integer examScoreJudge;
+
+    private List<ExamQuestionSelectVo> partIs;
+    private List<ExamQuestionSelectVo> partIIAs;
+    private List<ExamQuestionSelectVo> partIIBs;
+    private List<ExamQuestionSelectVo> partIICs;
+    private List<ExamQuestionSelectVo> partIIIAs;
+    private List<ExamQuestionSelectVo> partIIIBs;
+    private List<ExamQuestionSelectVo> partIIICs;
+    private List<ExamQuestionSelectVo> partIVs;
+    
+    private Integer examScorePartI;
+    private Integer examScorePartIIA;
+    private Integer examScorePartIIB;
+    private Integer examScorePartIIC;
+    private Integer examScorePartIIIA;
+    private Integer examScorePartIIIB;
+    private Integer examScorePartIIIC;
+    private Integer examScorePartIV;
 }
