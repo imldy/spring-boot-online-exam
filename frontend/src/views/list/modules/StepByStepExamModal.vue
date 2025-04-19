@@ -30,7 +30,7 @@
             <a-input-number
               :min="1"
               :max="200"
-              v-decorator="['elapse', {initialValue: '90',rules: [{required: true}]}]"
+              v-decorator="['elapse', {initialValue: '130',rules: [{required: true}]}]"
             />
             分钟
           </a-form-item>
