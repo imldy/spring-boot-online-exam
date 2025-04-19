@@ -15,12 +15,12 @@
       </span>
     </a-layout-header>
     <a-layout>
-      <a-layout-sider width="190" :style="{background: '#444',overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
+      <a-layout-sider width="190" :style="{background: '#444', overflow: 'auto', height: 'calc(100vh - 64px)', position: 'fixed', left: 0, top: '64px' }">
         <a-menu
           mode="inline"
           :defaultSelectedKeys="['1']"
           :defaultOpenKeys="['partI', 'partII', 'partIII', 'partIV']"
-          :style="{ height: '100%', borderRight: 0 }"
+          :style="{ height: '100%', borderRight: 0, overflow: 'auto' }"
         >
           <a-sub-menu key="partI">
             <span slot="title" v-if="examDetail.exam"><a-icon type="edit" theme="twoTone"/>写作部分</span>
