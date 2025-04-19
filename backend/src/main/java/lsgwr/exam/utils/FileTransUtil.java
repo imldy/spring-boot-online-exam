@@ -93,7 +93,8 @@ public class FileTransUtil {
                     FileUtil.mkdir(fileDir);
                 }
             }
-            Path path = Paths.get(dir + "/" + fileName);
+            // 使用 Path 对象来处理路径
+            Path path = Paths.get(dir).resolve(fileName.replace("\\", "/"));
             // 确保父目录存在
             Files.createDirectories(path.getParent());
             Files.write(path, bytes);
