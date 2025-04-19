@@ -120,6 +120,16 @@
                 {{ option.questionOptionContent }}
               </a-select-option>
             </a-select>
+
+            <!-- 写作和翻译题部分 -->
+            <a-textarea
+              v-if="currentQuestion.typeId === 411 || currentQuestion.typeId === 711"
+              v-model="subjectiveAnswer"
+              placeholder="请输入您的答案"
+              :auto-size="{ minRows: 10, maxRows: 20 }"
+              style="width: 100%; margin-top: 20px;"
+              @change="onSubjectiveAnswerChange"
+            />
           </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
@@ -150,6 +160,8 @@ export default {
       currentQuestion: '',
       // 多选题的绑定值，用于从answersMap中初始化做题状态
       checkValues: [],
+      // 主观题答案
+      subjectiveAnswer: '',
       optionStyle: {
         display: 'block',
         height: '30px',
@@ -186,6 +198,7 @@ export default {
       const that = this
       // 清空问题绑定的值
       this.checkValues = []
+      this.subjectiveAnswer = ''
       getQuestionDetail(questionId)
         .then(res => {
           if (res.code === 0) {
@@ -199,6 +212,9 @@ export default {
               if (that.currentQuestion.type === '多选题') {
                 // 数组是引用类型，因此需要进行拷贝，千万不要直接赋值
                 Object.assign(that.checkValues, that.answersMap.get(that.currentQuestion.id))
+              } else if (that.currentQuestion.typeId === 411 || that.currentQuestion.typeId === 711) {
+                // 如果是写作或翻译题，恢复之前输入的答案
+                that.subjectiveAnswer = that.answersMap.get(that.currentQuestion.id)
               }
             }
             return res.data
@@ -224,6 +240,13 @@ export default {
       this.checkValues = uniqueValues
       // 更新做题者选择的答案
       this.answersMap.set(this.currentQuestion.id, uniqueValues)
+    },
+    /**
+     * 主观题答案变化事件
+     */
+    onSubjectiveAnswerChange () {
+      // 更新做题者输入的答案
+      this.answersMap.set(this.currentQuestion.id, this.subjectiveAnswer)
     },
     _strMapToObj (strMap) {
       const obj = Object.create(null)
