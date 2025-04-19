@@ -208,10 +208,12 @@ export default {
           title: '操作',
           field: 'action',
           align: 'center',
+          width: '150px',
           formatter: (value, row) => {
-            return '<button type="button" class="btn btn-success view-question">详情</button>' +
-              '&nbsp;&nbsp;' +
-              '<button type="button" class="btn btn-success edit-question">编辑</button>'
+            return '<div style="display: flex; justify-content: center; gap: 8px;">' +
+              '<button type="button" class="btn btn-success view-question">详情</button>' +
+              '<button type="button" class="btn btn-success edit-question">编辑</button>' +
+              '</div>'
           },
           events: {
             'click .view-question': function (e, value, row, index) {
