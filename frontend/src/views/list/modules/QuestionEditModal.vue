@@ -144,7 +144,7 @@ export default {
       this.answerOptionId = ''
       this.answerOptionIds = []
       this.visible = true
-      
+
       // 非主观题才需要设置答案
       if (!this.isSubjective) {
         // 单选题的处理情况,设置默认值
