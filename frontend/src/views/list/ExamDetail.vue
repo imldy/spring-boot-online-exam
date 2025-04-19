@@ -19,19 +19,67 @@
         <a-menu
           mode="inline"
           :defaultSelectedKeys="['1']"
-          :defaultOpenKeys="['question_listening', 'question_reading']"
+          :defaultOpenKeys="['partI', 'partII', 'partIII', 'partIV']"
           :style="{ height: '100%', borderRight: 0 }"
         >
-          <a-sub-menu key="question_listening">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="sound" theme="twoTone"/>听力部分</span>
-            <a-menu-item v-for="(item, index) in examDetail.listeningIds" :key="item" @click="getQuestionDetail(item)">
+          <a-sub-menu key="partI">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="edit" theme="twoTone"/>写作部分</span>
+            <a-menu-item v-for="(item, index) in examDetail.partIIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
             </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="question_reading">
+          <a-sub-menu key="partII">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="sound" theme="twoTone"/>听力部分</span>
+            <a-sub-menu key="partIIA">
+              <span slot="title">Section A</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIAIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIB">
+              <span slot="title">Section B</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIBIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIC">
+              <span slot="title">Section C</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIICIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+          </a-sub-menu>
+          <a-sub-menu key="partIII">
             <span slot="title" v-if="examDetail.exam"><a-icon type="read" theme="twoTone"/>阅读部分</span>
-            <a-menu-item v-for="(item, index) in examDetail.readingIds" :key="item" @click="getQuestionDetail(item)">
+            <a-sub-menu key="partIIIA">
+              <span slot="title">Section A</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIIAIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIIB">
+              <span slot="title">Section B</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIIBIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIIC">
+              <span slot="title">Section C</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIICIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+          </a-sub-menu>
+          <a-sub-menu key="partIV">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="translation" theme="twoTone"/>翻译部分</span>
+            <a-menu-item v-for="(item, index) in examDetail.partIVIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
             </a-menu-item>
