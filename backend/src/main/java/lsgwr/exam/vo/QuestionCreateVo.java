@@ -50,6 +50,12 @@ public class QuestionCreateVo {
     private Integer questionCategoryId;
 
     /**
+     * 听力题目的音频文件URL
+     */
+    @JsonProperty("audioUrl")
+    private String audioUrl;
+
+    /**
      * 问题的选项列表，带上了是否是答案的true和false
      */
     @JsonProperty("options")

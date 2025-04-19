@@ -38,6 +38,12 @@ public class QuestionCreateSimplifyVo {
     private Integer questionCategoryId;
 
     /**
+     * 听力题目的音频文件URL
+     */
+    @JsonProperty("audioUrl")
+    private String audioUrl;
+
+    /**
      * 创建选项 里添加的内容
      */
     @JsonProperty("option")

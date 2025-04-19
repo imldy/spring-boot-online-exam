@@ -63,6 +63,11 @@ public class QuestionVo {
     @JsonProperty("categoryId")
     private int questionCategoryId;
 
+    /**
+     * 听力题目的音频文件URL
+     */
+    @JsonProperty("audioUrl")
+    private String audioUrl;
 
     @JsonProperty("description")
     private String questionDescription;

@@ -34,6 +34,10 @@ public class Question {
      */
     private String questionAnswerOptionIds;
     /**
+     * 听力题目的音频文件URL
+     */
+    private String audioUrl;
+    /**
      * 创建时间, 设计表时设置了自动插入当前时间，无需在Java代码中设置了
      */
 
