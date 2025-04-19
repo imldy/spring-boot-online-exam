@@ -2,13 +2,21 @@
   <a-modal title="创建问题" :width="800" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel" :maskClosable="false">
     <a-spin :spinning="confirmLoading">
       <a-steps :current="currentStep" :style="{ marginBottom: '28px' }" size="small">
-        <a-step title="问题分类" />
         <a-step title="问题内容" />
+        <a-step title="问题分类" />
         <a-step title="问题选项" />
       </a-steps>
       <a-form :form="form">
         <!-- step1 -->
         <div v-show="currentStep === 0">
+          <a-form-item label="题干" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <div id="summernote-question-name"></div>
+          </a-form-item>
+          <a-form-item label="解析" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <div id="summernote-question-desc"></div>
+          </a-form-item>
+        </div>
+        <div v-show="currentStep === 1">
           <a-form-item label="题型" :labelCol="labelCol" :wrapperCol="wrapperCol">
             <a-select v-decorator="['type', {rules: [{required: true}]}]" placeholder="请选择题型" style="width: 100%" @change="handleTypeChange">
               <a-select-option v-for="typeObj in types" :value="typeObj.id" :key="typeObj.id">
@@ -46,14 +54,6 @@
                 <a-icon type="upload" /> 上传音频
               </a-button>
             </a-upload>
-          </a-form-item>
-        </div>
-        <div v-show="currentStep === 1">
-          <a-form-item label="题干" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <div id="summernote-question-name"></div>
-          </a-form-item>
-          <a-form-item label="解析" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <div id="summernote-question-desc"></div>
           </a-form-item>
         </div>
         <div v-show="currentStep === 2">
@@ -123,7 +123,7 @@ import '../../../plugins/summernote'
 import $ from 'jquery'
 import { getQuestionSelection, questionCreate, uploadAudio } from '../../../api/exam'
 
-const stepForms = [['type', 'category', 'level'], [], ['option']]
+const stepForms = [[], ['type', 'category', 'level'], ['option']]
 
 export default {
   name: 'StepByStepQuestionModal',
