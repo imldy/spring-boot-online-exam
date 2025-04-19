@@ -124,7 +124,7 @@
             <!-- 写作和翻译题部分 -->
             <a-textarea
               v-if="currentQuestion.typeId === 411 || currentQuestion.typeId === 711"
-              v-model="subjectiveAnswer"
+              v-model="subjectiveAnswer[0]"
               placeholder="请输入您的答案"
               :auto-size="{ minRows: 10, maxRows: 20 }"
               style="width: 100%; margin-top: 20px;"
@@ -161,7 +161,7 @@ export default {
       // 多选题的绑定值，用于从answersMap中初始化做题状态
       checkValues: [],
       // 主观题答案
-      subjectiveAnswer: '',
+      subjectiveAnswer: [''],
       optionStyle: {
         display: 'block',
         height: '30px',
@@ -198,7 +198,7 @@ export default {
       const that = this
       // 清空问题绑定的值
       this.checkValues = []
-      this.subjectiveAnswer = ''
+      this.subjectiveAnswer = ['']
       getQuestionDetail(questionId)
         .then(res => {
           if (res.code === 0) {
@@ -214,7 +214,7 @@ export default {
                 Object.assign(that.checkValues, that.answersMap.get(that.currentQuestion.id))
               } else if (that.currentQuestion.typeId === 411 || that.currentQuestion.typeId === 711) {
                 // 如果是写作或翻译题，恢复之前输入的答案
-                that.subjectiveAnswer = that.answersMap.get(that.currentQuestion.id)
+                that.subjectiveAnswer = [that.answersMap.get(that.currentQuestion.id)]
               }
             }
             return res.data
