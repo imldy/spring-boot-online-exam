@@ -49,14 +49,17 @@ public class FileTransUtil {
         if (uploadfile.isEmpty()) {
             return "文件名不能为空";
         }
+        String fileUploadPath;
         try {
-            saveUploadedFiles(Arrays.asList(uploadfile), dir);
+            List<Path> paths = saveUploadedFiles(Arrays.asList(uploadfile), dir);
+            // 返回文件的URL
+            fileUploadPath = paths.get(0).toString();
         } catch (IOException e) {
             e.printStackTrace();
             return "后台服务异常";
         }
-        log.info("file upload successfully! " + dir);
-        return "文件上传成功";
+        log.info("file upload successfully! " + fileUploadPath);
+        return "/api/file/download/get?filePath=" + fileUploadPath;
     }
 
     /**
