@@ -15,11 +15,7 @@
       </div>
     </div>
     <div class="banner-image-wrapper" style="opacity: 1;">
-      <a-carousel arrows autoplay>
-        <div v-for="i in 5" :key="i">
-          <img :src="`/home/cover${i}.jpg`" style="height: 324px"/>
-        </div>
-      </a-carousel>
+      <img :src="`/home/cover1.jpg`" style="height: 324px"/>
     </div>
   </div>
 </template>
