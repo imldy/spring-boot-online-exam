@@ -98,46 +98,6 @@
                   {{ option.content }}
                 </a-select-option>
               </a-select>
-              <!-- 单选 -->
-              <a-select
-                style="width: 100%"
-                placeholder="请选择单选题的答案"
-                v-if="type===1"
-                @change="handleSingleChange"
-                :value="answerOption"
-              >
-                <a-select-option v-for="(option,index) in options" :value="option.content" :key="index">
-                  {{ option.content }}
-                </a-select-option>
-              </a-select>
-              <!-- 多选 -->
-              <a-select
-                mode="multiple"
-                :size="size"
-                placeholder="请选择多选题的答案"
-                :value="answerOptions"
-                v-if="type===2"
-                style="width: 100%"
-                @popupScroll="popupScroll"
-                @change="handleMultiChange"
-              >
-                <a-select-option v-for="(option, index) in options" :value="option.content" :key="index">
-                  {{ option.content }}
-                </a-select-option>
-              </a-select>
-              <!-- 判断 -->
-              <a-select
-                style="width: 100%"
-                placeholder="请选择判断题的答案"
-                v-if="type===3"
-                @change="handleSingleChange"
-                :value="answerOption"
-              >
-
-                <a-select-option v-for="(option,index) in options" :value="option.content" :key="index">
-                  {{ option.content }}
-                </a-select-option>
-              </a-select>
             </a-form-item>
           </template>
           <!-- 主观题显示提示信息 -->
