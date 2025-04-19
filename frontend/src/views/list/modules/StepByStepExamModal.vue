@@ -52,45 +52,6 @@
         </div>
         <div v-show="currentStep === 1">
           <a-form-item
-            label="单选题"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-          >
-            <a-input-number
-              :min="1"
-              :max="20"
-              v-decorator="['radioScore', {initialValue: '5',rules: [{required: true}]}]"
-            />
-            分
-          </a-form-item>
-
-          <a-form-item
-            label="多选题"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-          >
-            <a-input-number
-              :min="1"
-              :max="20"
-              v-decorator="['checkScore', {initialValue: '5',rules: [{required: true}]}]"
-            />
-            分
-          </a-form-item>
-
-          <a-form-item
-            label="判断题"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-          >
-            <a-input-number
-              :min="1"
-              :max="20"
-              v-decorator="['judgeScore', {initialValue: '5',rules: [{required: true}]}]"
-            />
-            分
-          </a-form-item>
-
-          <a-form-item
             label="写作题"
             :labelCol="labelCol"
             :wrapperCol="wrapperCol"
@@ -196,69 +157,6 @@
         </div>
 
         <div v-show="currentStep === 2">
-          <a-form-item
-            label="选择单选题"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-            enterButton="Search"
-          >
-            <!-- 单选 -->
-            <a-select
-              mode="multiple"
-              :size="size"
-              placeholder="请选择单选题"
-              style="width: 100%"
-              @popupScroll="popupScroll"
-              @change="handleRadioChange"
-            >
-              <a-select-option v-for="radio in radios" :value="radio.name" :key="radio.id">
-                {{ radio.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-
-          <a-form-item
-            label="选择多选题"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-            enterButton="Search"
-          >
-            <!-- 多选 -->
-            <a-select
-              mode="multiple"
-              :size="size"
-              placeholder="请选择多选题"
-              style="width: 100%"
-              @popupScroll="popupScroll"
-              @change="handleCheckChange"
-            >
-              <a-select-option v-for="check in checks" :value="check.name" :key="check.id">
-                {{ check.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-
-          <a-form-item
-            label="选择判断题"
-            :labelCol="labelCol"
-            :wrapperCol="wrapperCol"
-            enterButton="Search"
-          >
-            <!-- 判断 -->
-            <a-select
-              mode="multiple"
-              :size="size"
-              placeholder="请选择判断题"
-              style="width: 100%"
-              @popupScroll="popupScroll"
-              @change="handleJudgeChange"
-            >
-              <a-select-option v-for="judge in judges" :value="judge.name" :key="judge.id">
-                {{ judge.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-
           <a-form-item
             label="选择写作题"
             :labelCol="labelCol"
@@ -438,7 +336,7 @@ import { getExamQuestionTypeList, examCreate } from '../../../api/exam'
 
 const stepForms = [
   ['name', 'elapse', 'desc'],
-  ['radioScore', 'checkScore', 'judgeScore'],
+  ['partIScore', 'partIIAScore', 'partIIBScore', 'partIICScore', 'partIIIAScore', 'partIIIBScore', 'partIIICScore', 'partIVScore'],
   ['option']
 ]
 
@@ -461,12 +359,6 @@ export default {
       mdl: {},
 
       form: this.$form.createForm(this),
-      // 单选题对象列表
-      radios: [],
-      // 多选题对象列表
-      checks: [],
-      // 判断题对象列表
-      judges: [],
       // 写作题对象列表
       partIs: [],
       // 听力A部分对象列表
@@ -508,14 +400,11 @@ export default {
     },
     create () {
       this.visible = true
-      // 从后端数据获取单选题、多选题和判断题的列表
+      // 从后端数据获取题目列表
       getExamQuestionTypeList().then(res => {
         console.log(res)
         if (res.code === 0) {
           console.log(res.data)
-          this.radios = res.data.radios
-          this.checks = res.data.checks
-          this.judges = res.data.judges
           this.partIs = res.data.partIs
           this.partIIAs = res.data.partIIAs
           this.partIIBs = res.data.partIIBs
@@ -558,10 +447,7 @@ export default {
       this.confirmLoading = true
       validateFields((errors, values) => { // values就是表单中校验的值，后面提交到后端接口时主要就是用这个values
         values.avatar = $('#summernote-exam-avatar-create').summernote('code')
-        // 设置单选题、多选题和判断题的内容，但是提交前需要保证都已经被正确更新了
-        values.radios = this.radios
-        values.checks = this.checks
-        values.judges = this.judges
+        // 设置题目内容，但是提交前需要保证都已经被正确更新了
         values.partIs = this.partIs
         values.partIIAs = this.partIIAs
         values.partIIBs = this.partIIBs
@@ -608,81 +494,6 @@ export default {
       this.visible = false
       this.currentStep = 0
     },
-    // 改变选择的题目列表,这里需要分单选、多选和判断进行单独更新，下面的代码要针对radios、checks和judges分别适配
-    handleRadioChange (values) {
-      console.log(values)
-      // 更新单选题的信息
-      for (let i = 0; i < this.radios.length; i++) { // 遍历所有的题目的选项
-        // 取出一个选项的id
-        const name = this.radios[i].name
-        // 当前问题是否被问题创建者选中
-        let checked = false
-        for (let j = 0; j < values.length; j++) { // 拿着
-          const value = values[j]
-          if (name === value) {
-            // 说明这个问题被考试创建者选中
-            checked = true
-            this.radios[i].checked = true
-            break // 跳出内部的for循环
-          }
-        }
-        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
-        if (checked === false) {
-          this.radios[i].checked = false
-        }
-      }
-    },
-
-    // 更新多选题信息
-    handleCheckChange (values) {
-      console.log(values)
-      // 更新单选题的信息
-      for (let i = 0; i < this.checks.length; i++) { // 遍历所有的题目的选项
-        // 取出一个选项的id
-        const name = this.checks[i].name
-        // 当前问题是否被问题创建者选中
-        let checked = false
-        for (let j = 0; j < values.length; j++) { // 拿着
-          const value = values[j]
-          if (name === value) {
-            // 说明这个问题被考试创建者选中
-            checked = true
-            this.checks[i].checked = true
-            break // 跳出内部的for循环
-          }
-        }
-        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
-        if (checked === false) {
-          this.checks[i].checked = false
-        }
-      }
-    },
-
-    // 更新判断题信息
-    handleJudgeChange (values) {
-      console.log(values)
-      // 更新单选题的信息
-      for (let i = 0; i < this.judges.length; i++) { // 遍历所有的题目的选项
-        // 取出一个选项的id
-        const name = this.judges[i].name
-        // 当前问题是否被问题创建者选中
-        let checked = false
-        for (let j = 0; j < values.length; j++) { // 拿着
-          const value = values[j]
-          if (name === value) {
-            // 说明这个问题被考试创建者选中
-            checked = true
-            this.judges[i].checked = true
-            break // 跳出内部的for循环
-          }
-        }
-        // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
-        if (checked === false) {
-          this.judges[i].checked = false
-        }
-      }
-    },
-
     // 更新写作题信息
     handlePartIChange (values) {
       console.log(values)
