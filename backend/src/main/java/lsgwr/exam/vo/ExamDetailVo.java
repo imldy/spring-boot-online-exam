@@ -14,21 +14,6 @@ public class ExamDetailVo {
     private Exam exam;
 
     /**
-     * 单选题的id数组
-     */
-    private String[] radioIds;
-
-    /**
-     * 多选题的id数组
-     */
-    private String[] checkIds;
-
-    /**
-     * 判断题的id数组
-     */
-    private String[] judgeIds;
-
-    /**
      * Part I题型的id数组
      */
     private String[] partIIds;

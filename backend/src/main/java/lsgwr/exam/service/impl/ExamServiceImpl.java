@@ -303,45 +303,6 @@ public class ExamServiceImpl implements ExamService {
                     ).getUserUsername()
             );
 
-            // 获取所有单选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoRadioList上
-            List<ExamQuestionSelectVo> radioQuestionVoList = new ArrayList<>();
-            List<Question> radioQuestionList = questionRepository.findAllById(
-                    Arrays.asList(exam.getExamQuestionIdsRadio().split("-"))
-            );
-            for (Question question : radioQuestionList) {
-                ExamQuestionSelectVo radioQuestionVo = new ExamQuestionSelectVo();
-                BeanUtils.copyProperties(question, radioQuestionVo);
-                radioQuestionVo.setChecked(true); // 考试中的问题肯定被选中的
-                radioQuestionVoList.add(radioQuestionVo);
-            }
-            examVo.setExamQuestionSelectVoRadioList(radioQuestionVoList);
-
-            // 获取所有多选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoCheckList上
-            List<ExamQuestionSelectVo> checkQuestionVoList = new ArrayList<>();
-            List<Question> checkQuestionList = questionRepository.findAllById(
-                    Arrays.asList(exam.getExamQuestionIdsCheck().split("-"))
-            );
-            for (Question question : checkQuestionList) {
-                ExamQuestionSelectVo checkQuestionVo = new ExamQuestionSelectVo();
-                BeanUtils.copyProperties(question, checkQuestionVo);
-                checkQuestionVo.setChecked(true); // 考试中的问题肯定被选中的
-                checkQuestionVoList.add(checkQuestionVo);
-            }
-            examVo.setExamQuestionSelectVoCheckList(checkQuestionVoList);
-
-            // 获取所有多选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoJudgeList上
-            List<ExamQuestionSelectVo> judgeQuestionVoList = new ArrayList<>();
-            List<Question> judgeQuestionList = questionRepository.findAllById(
-                    Arrays.asList(exam.getExamQuestionIdsJudge().split("-"))
-            );
-            for (Question question : judgeQuestionList) {
-                ExamQuestionSelectVo judgeQuestionVo = new ExamQuestionSelectVo();
-                BeanUtils.copyProperties(question, judgeQuestionVo);
-                judgeQuestionVo.setChecked(true); // 考试中的问题肯定被选中的
-                judgeQuestionVoList.add(judgeQuestionVo);
-            }
-            examVo.setExamQuestionSelectVoJudgeList(judgeQuestionVoList);
-
             // 把examVo加到examVoList中
             examVoList.add(examVo);
         }
@@ -449,9 +410,6 @@ public class ExamServiceImpl implements ExamService {
         // Todo:这两个日志后面是要在前端传入的，这里暂时定为当前日期
         exam.setExamStartDate(new Date());
         exam.setExamEndDate(new Date());
-        String radioIdsStr = "";
-        String checkIdsStr = "";
-        String judgeIdsStr = "";
         String partIIdsStr = "";
         String partIIAIdsStr = "";
         String partIIBIdsStr = "";
@@ -546,14 +504,11 @@ public class ExamServiceImpl implements ExamService {
         partIVIdsStr = replaceLastSeparator(partIVIdsStr);
         
         // 设置所有题目的id
-        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr + "-" + 
+        exam.setExamQuestionIds(
                               partIIdsStr + "-" + partIIAIdsStr + "-" + partIIBIdsStr + "-" + partIICIdsStr + "-" + 
                               partIIIAIdsStr + "-" + partIIIBIdsStr + "-" + partIIICIdsStr + "-" + partIVIdsStr);
         
         // 设置各个题型的id
-        exam.setExamQuestionIdsRadio(radioIdsStr);
-        exam.setExamQuestionIdsCheck(checkIdsStr);
-        exam.setExamQuestionIdsJudge(judgeIdsStr);
         exam.setExamQuestionIdsPartI(partIIdsStr);
         exam.setExamQuestionIdsPartIIA(partIIAIdsStr);
         exam.setExamQuestionIdsPartIIB(partIIBIdsStr);
@@ -585,9 +540,6 @@ public class ExamServiceImpl implements ExamService {
         exam.setExamCreatorId(userId); // 考试的更新人为最新的创建人
         exam.setUpdateTime(new Date()); // 考试的更新日期要记录下
 
-        String radioIdsStr = "";
-        String checkIdsStr = "";
-        String judgeIdsStr = "";
         String partIIdsStr = "";
         String partIIAIdsStr = "";
         String partIIBIdsStr = "";
@@ -612,33 +564,6 @@ public class ExamServiceImpl implements ExamService {
         int radioCnt = 0, checkCnt = 0, judgeCnt = 0;
         int partICnt = 0, partIIACnt = 0, partIIBCnt = 0, partIICCnt = 0;
         int partIIIACnt = 0, partIIIBCnt = 0, partIIICCnt = 0, partIVCnt = 0;
-        
-        // 处理单选题
-        for (ExamQuestionSelectVo radio : radios) {
-            if (radio.getChecked()) {
-                radioIdsStr += radio.getQuestionId() + "-";
-                radioCnt++;
-            }
-        }
-        radioIdsStr = replaceLastSeparator(radioIdsStr);
-        
-        // 处理多选题
-        for (ExamQuestionSelectVo check : checks) {
-            if (check.getChecked()) {
-                checkIdsStr += check.getQuestionId() + "-";
-                checkCnt++;
-            }
-        }
-        checkIdsStr = replaceLastSeparator(checkIdsStr);
-        
-        // 处理判断题
-        for (ExamQuestionSelectVo judge : judges) {
-            if (judge.getChecked()) {
-                judgeIdsStr += judge.getQuestionId() + "-";
-                judgeCnt++;
-            }
-        }
-        judgeIdsStr = replaceLastSeparator(judgeIdsStr);
         
         // 处理Part I写作题
         for (ExamQuestionSelectVo partI : partIs) {
@@ -713,14 +638,11 @@ public class ExamServiceImpl implements ExamService {
         partIVIdsStr = replaceLastSeparator(partIVIdsStr);
         
         // 设置所有题目的id
-        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr + "-" + 
+        exam.setExamQuestionIds(
                               partIIdsStr + "-" + partIIAIdsStr + "-" + partIIBIdsStr + "-" + partIICIdsStr + "-" + 
                               partIIIAIdsStr + "-" + partIIIBIdsStr + "-" + partIIICIdsStr + "-" + partIVIdsStr);
         
         // 设置各个题型的id
-        exam.setExamQuestionIdsRadio(radioIdsStr);
-        exam.setExamQuestionIdsCheck(checkIdsStr);
-        exam.setExamQuestionIdsJudge(judgeIdsStr);
         exam.setExamQuestionIdsPartI(partIIdsStr);
         exam.setExamQuestionIdsPartIIA(partIIAIdsStr);
         exam.setExamQuestionIdsPartIIB(partIIBIdsStr);
@@ -731,9 +653,7 @@ public class ExamServiceImpl implements ExamService {
         exam.setExamQuestionIdsPartIV(partIVIdsStr);
 
         // 计算总分数
-        int examScore = radioCnt * exam.getExamScoreRadio() + 
-                       checkCnt * exam.getExamScoreCheck() + 
-                       judgeCnt * exam.getExamScoreJudge() +
+        int examScore =
                        partICnt * exam.getExamScorePartI() +
                        partIIACnt * exam.getExamScorePartIIA() +
                        partIIBCnt * exam.getExamScorePartIIB() +
@@ -765,9 +685,6 @@ public class ExamServiceImpl implements ExamService {
         ExamDetailVo examDetailVo = new ExamDetailVo();
         examDetailVo.setExam(exam);
         assert exam != null;
-        examDetailVo.setRadioIds(exam.getExamQuestionIdsRadio().split("-"));
-        examDetailVo.setCheckIds(exam.getExamQuestionIdsCheck().split("-"));
-        examDetailVo.setJudgeIds(exam.getExamQuestionIdsJudge().split("-"));
         examDetailVo.setPartIIds(exam.getExamQuestionIdsPartI().split("-"));
         examDetailVo.setPartIIAIds(exam.getExamQuestionIdsPartIIA().split("-"));
         examDetailVo.setPartIIBIds(exam.getExamQuestionIdsPartIIB().split("-"));
@@ -788,9 +705,6 @@ public class ExamServiceImpl implements ExamService {
         // 2.然后获取该考试下所有的题目信息
         List<String> questionIds = new ArrayList<>();
         // 2.1 题目id的数组
-        List<String> radioIdList = Arrays.asList(examDetailVo.getRadioIds());
-        List<String> checkIdList = Arrays.asList(examDetailVo.getCheckIds());
-        List<String> judgeIdList = Arrays.asList(examDetailVo.getJudgeIds());
         List<String> partIIdList = Arrays.asList(examDetailVo.getPartIIds());
         List<String> partIIAIdList = Arrays.asList(examDetailVo.getPartIIAIds());
         List<String> partIIBIdList = Arrays.asList(examDetailVo.getPartIIBIds());
@@ -799,10 +713,7 @@ public class ExamServiceImpl implements ExamService {
         List<String> partIIIBIdList = Arrays.asList(examDetailVo.getPartIIIBIds());
         List<String> partIIICIdList = Arrays.asList(examDetailVo.getPartIIICIds());
         List<String> partIVIdList = Arrays.asList(examDetailVo.getPartIVIds());
-        
-        questionIds.addAll(radioIdList);
-        questionIds.addAll(checkIdList);
-        questionIds.addAll(judgeIdList);
+
         questionIds.addAll(partIIdList);
         questionIds.addAll(partIIAIdList);
         questionIds.addAll(partIIBIdList);
@@ -813,9 +724,6 @@ public class ExamServiceImpl implements ExamService {
         questionIds.addAll(partIVIdList);
         
         // 2.2 每种题目的分数
-        int radioScore = exam.getExamScoreRadio();
-        int checkScore = exam.getExamScoreCheck();
-        int judgeScore = exam.getExamScoreJudge();
         int partIScore = exam.getExamScorePartI();
         int partIIAScore = exam.getExamScorePartIIA();
         int partIIBScore = exam.getExamScorePartIIB();
@@ -856,15 +764,6 @@ public class ExamServiceImpl implements ExamService {
             if (answerStr.equals(userStr)) {
                 // 说明题目作答正确,下面根据题型给分
                 int score = 0;
-                if (radioIdList.contains(questionId)) {
-                    score = radioScore;
-                }
-                if (checkIdList.contains(questionId)) {
-                    score = checkScore;
-                }
-                if (judgeIdList.contains(questionId)) {
-                    score = judgeScore;
-                }
                 if (partIIdList.contains(questionId)) {
                     score = partIScore;
                 }
@@ -959,9 +858,6 @@ public class ExamServiceImpl implements ExamService {
         // 下面再计算正确答案的map
         ExamDetailVo examDetailVo = getExamDetail(record.getExamId());
         List<String> questionIdList = new ArrayList<>();
-        questionIdList.addAll(Arrays.asList(examDetailVo.getRadioIds()));
-        questionIdList.addAll(Arrays.asList(examDetailVo.getCheckIds()));
-        questionIdList.addAll(Arrays.asList(examDetailVo.getJudgeIds()));
         questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIds()));
         questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIAIds()));
         questionIdList.addAll(Arrays.asList(examDetailVo.getPartIIBIds()));

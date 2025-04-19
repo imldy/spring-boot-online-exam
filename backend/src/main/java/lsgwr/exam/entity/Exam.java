@@ -23,9 +23,6 @@ public class Exam {
     private String examAvatar;
     private String examDescription;
     private String examQuestionIds;
-    private String examQuestionIdsRadio;
-    private String examQuestionIdsCheck;
-    private String examQuestionIdsJudge;
     private String examQuestionIdsPartI;        // Part I Writing
     private String examQuestionIdsPartIIA;      // Part II Listening Section A
     private String examQuestionIdsPartIIB;      // Part II Listening Section B
@@ -35,9 +32,6 @@ public class Exam {
     private String examQuestionIdsPartIIIC;     // Part III Reading Section C
     private String examQuestionIdsPartIV;       // Part IV Translation
     private Integer examScore;
-    private Integer examScoreRadio;
-    private Integer examScoreCheck;
-    private Integer examScoreJudge;
     private Integer examScorePartI;
     private Integer examScorePartIIA;
     private Integer examScorePartIIB;
