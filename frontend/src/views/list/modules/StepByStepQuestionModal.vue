@@ -400,14 +400,14 @@ export default {
           const response = await uploadAudio(formData)
           this.$message.success('音频上传成功')
           // 保存音频文件URL
-          this.audioUrl = response.data
+          this.audioUrl = response
           // 更新文件状态为完成
           fileList = fileList.map(file => {
             if (file.uid === info.file.uid) {
               return {
                 ...file,
                 status: 'done',
-                url: response.data
+                url: response
               }
             }
             return file
