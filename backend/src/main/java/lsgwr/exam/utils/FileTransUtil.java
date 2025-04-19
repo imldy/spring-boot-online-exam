@@ -94,6 +94,8 @@ public class FileTransUtil {
                 }
             }
             Path path = Paths.get(dir + "/" + fileName);
+            // 确保父目录存在
+            Files.createDirectories(path.getParent());
             Files.write(path, bytes);
         }
     }
