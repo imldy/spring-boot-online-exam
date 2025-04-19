@@ -170,13 +170,13 @@ export default {
   data () {
     return {
       labelCol: {
-        xs: { span: 2 },
-        sm: { span: 2 }
+        xs: { span: 4 },
+        sm: { span: 4 }
       },
       size: 'default',
       wrapperCol: {
-        xs: { span: 22 },
-        sm: { span: 22 }
+        xs: { span: 20 },
+        sm: { span: 20 }
       },
       // 单选和判断题的答案
       answerOption: '',
