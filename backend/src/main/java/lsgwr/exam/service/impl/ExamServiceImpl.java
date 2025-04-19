@@ -200,15 +200,19 @@ public class ExamServiceImpl implements ExamService {
                 QuestionOptionCreateVo questionOptionCreateVo = questionOptionCreateVoList.get(i);
                 // 获取保存后的指定对象
                 QuestionOption questionOption = questionOptionList.get(i);
-                questionOptionIds += questionOption.getQuestionOptionId() + "-";
-                if (questionOptionCreateVo.getAnswer()) {
-                // 如果是答案的话
-                    questionAnswerOptionIds += questionOption.getQuestionOptionId() + "-";
+                if (i != questionOptionList.size() - 1) {
+                    questionOptionIds += questionOption.getQuestionOptionId() + "-";
+                    if (questionOptionCreateVo.getAnswer()) {
+                        questionAnswerOptionIds += questionOption.getQuestionOptionId() + "-";
+                    }
+                } else {
+                    questionOptionIds += questionOption.getQuestionOptionId();
+                    if (questionOptionCreateVo.getAnswer()) {
+                        // 如果是答案的话
+                        questionAnswerOptionIds += questionOption.getQuestionOptionId();
+                    }
                 }
             }
-            // 把字符串最后面的"-"给去掉
-            questionAnswerOptionIds = replaceLastSeparator(questionAnswerOptionIds);
-            questionOptionIds = replaceLastSeparator(questionOptionIds);
             // 设置选项id组成的字符串
             question.setQuestionOptionIds(questionOptionIds);
             // 设置答案选项id组成的字符串
