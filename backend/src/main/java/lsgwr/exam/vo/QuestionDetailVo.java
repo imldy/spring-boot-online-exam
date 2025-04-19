@@ -30,9 +30,17 @@ public class QuestionDetailVo {
      */
     private String type;
     /**
+     * 问题的类型
+     */
+    private Integer typeId;
+    /**
      * 问题的选项
      */
     private List<QuestionOption> options;
+    /**
+     * 听力题目的音频文件URL
+     */
+    private String audioUrl;
     /**
      * 问题的答案,选项的id组成的数组
      */

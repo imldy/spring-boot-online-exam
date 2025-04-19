@@ -265,6 +265,8 @@ public class ExamServiceImpl implements ExamService {
         questionDetailVo.setId(id);
         questionDetailVo.setName(question.getQuestionName());
         questionDetailVo.setDescription(question.getQuestionDescription());
+        questionDetailVo.setAudioUrl(question.getAudioUrl());
+        questionDetailVo.setTypeId(question.getQuestionTypeId());
         // 问题类型，单选题/多选题/判断题
         questionDetailVo.setType(
                 Objects.requireNonNull(
