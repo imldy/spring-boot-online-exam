@@ -19,7 +19,7 @@
         <a-menu
           mode="inline"
           :defaultSelectedKeys="['1']"
-          :defaultOpenKeys="['question_radio', 'question_check', 'question_judge']"
+          :defaultOpenKeys="['question_radio', 'question_check', 'question_judge', 'question_listening', 'question_reading']"
           :style="{ height: '100%', borderRight: 0 }"
         >
           <a-sub-menu key="question_radio">
@@ -43,6 +43,20 @@
               题目{{ index + 1 }}
             </a-menu-item>
           </a-sub-menu>
+          <a-sub-menu key="question_listening">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="sound" theme="twoTone"/>听力部分</span>
+            <a-menu-item v-for="(item, index) in examDetail.listeningIds" :key="item" @click="getQuestionDetail(item)">
+              <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+              题目{{ index + 1 }}
+            </a-menu-item>
+          </a-sub-menu>
+          <a-sub-menu key="question_reading">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="read" theme="twoTone"/>阅读部分</span>
+            <a-menu-item v-for="(item, index) in examDetail.readingIds" :key="item" @click="getQuestionDetail(item)">
+              <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
+              题目{{ index + 1 }}
+            </a-menu-item>
+          </a-sub-menu>
         </a-menu>
       </a-layout-sider>
       <a-layout :style="{ marginLeft: '200px' }">
@@ -50,6 +64,13 @@
           <div :style="{ padding: '24px', background: '#fff',height: '84vh'}">
             <span v-show="currentQuestion === ''" style="font-size: 30px;font-family: Consolas">欢迎参加考试，请点击左侧题目编号开始答题</span>
             <strong>{{ currentQuestion.type }} </strong> <p v-html="currentQuestion.name"></p>
+            <!-- 显示音频文件（如果是听力题） -->
+            <div v-if="isListeningType && currentQuestion.audioUrl" class="audio-player">
+              <audio controls>
+                <source :src="currentQuestion.audioUrl" type="audio/mpeg">
+                您的浏览器不支持音频播放。
+              </audio>
+            </div>
             <!-- 单选题和判断题 --> <!-- key不重复只需要在一个for循环中保证即可 -->
             <a-radio-group @change="onRadioChange" v-model="radioValue" v-if="currentQuestion.type === '单选题' || currentQuestion.type === '判断题'">
               <a-radio v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle" :value="option.questionOptionId">
@@ -63,6 +84,28 @@
                 {{ option.questionOptionContent }}
               </a-checkbox>
             </a-checkbox-group>
+
+            <!-- 听力A、B、C部分和阅读B、C部分 -->
+            <a-checkbox-group @change="onCheckChange" v-model="checkValues" v-if="isListeningType || currentQuestion.typeId === 621 || currentQuestion.typeId === 631">
+              <a-checkbox v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle" :value="option.questionOptionId">
+                {{ option.questionOptionContent }}
+              </a-checkbox>
+            </a-checkbox-group>
+
+            <!-- 阅读A部分 -->
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择答案（每个选项只能选择一次）"
+              :value="checkValues"
+              style="width: 100%"
+              @change="onReadingAChange"
+              v-if="currentQuestion.typeId === 611"
+            >
+              <a-select-option v-for="option in currentQuestion.options" :key="option.questionOptionId">
+                {{ option.questionOptionContent }}
+              </a-select-option>
+            </a-select>
           </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
@@ -100,7 +143,9 @@ export default {
         height: '30px',
         lineHeight: '30px',
         marginLeft: '0px'
-      }
+      },
+      isListeningType: false,
+      size: 'default'
     }
   },
   mounted () {
@@ -135,6 +180,8 @@ export default {
           if (res.code === 0) {
             // 赋值当前考试对象
             that.currentQuestion = res.data
+            // 判断是否是听力题
+            that.isListeningType = [511, 521, 531].includes(that.currentQuestion.typeId)
             // 查看用户是不是已经做过这道题又切换回来的，answersMap中查找，能找到这个题目id对应的值数组不为空说明用户做过这道题
             if (that.answersMap.get(that.currentQuestion.id)) {
               // 说明之前做过这道题了
@@ -171,6 +218,13 @@ export default {
     onCheckChange (checkedValues) {
       // 更新做题者选择的答案
       this.answersMap.set(this.currentQuestion.id, checkedValues)
+    },
+    onReadingAChange (values) {
+      // 确保每个选项只被选择一次
+      const uniqueValues = [...new Set(values)]
+      this.checkValues = uniqueValues
+      // 更新做题者选择的答案
+      this.answersMap.set(this.currentQuestion.id, uniqueValues)
     },
     _strMapToObj (strMap) {
       const obj = Object.create(null)
