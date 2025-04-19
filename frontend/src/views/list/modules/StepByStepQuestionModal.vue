@@ -249,6 +249,8 @@ export default {
             this.type = values.type
             // 判断是否是主观题
             this.isSubjective = this.type === 411 || this.type === 711
+            // 判断是否是听力题
+            this.isListeningType = [511, 521, 531].includes(this.type)
             if (this.isSubjective) {
               return
             }
