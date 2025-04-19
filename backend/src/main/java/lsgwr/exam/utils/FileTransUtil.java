@@ -52,8 +52,8 @@ public class FileTransUtil {
         String fileUploadPath;
         try {
             List<Path> paths = saveUploadedFiles(Arrays.asList(uploadfile), dir);
-            // 返回文件的URL
-            fileUploadPath = paths.get(0).toString();
+            // 返回文件的URL，确保使用正斜线
+            fileUploadPath = paths.get(0).toString().replace("\\", "/");
         } catch (IOException e) {
             e.printStackTrace();
             return "后台服务异常";
