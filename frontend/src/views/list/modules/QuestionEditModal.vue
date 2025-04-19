@@ -1,5 +1,5 @@
 <template>
-  <a-modal title="编辑题目" :width="640" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
+  <a-modal title="编辑题目" :width="640" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel" :maskClosable="false">
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <h3><b>题干：</b></h3>
