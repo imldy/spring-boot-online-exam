@@ -1,5 +1,5 @@
 <template>
-  <a-modal title="创建问题" :width="800" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
+  <a-modal title="创建问题" :width="800" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel" :maskClosable="false">
     <a-spin :spinning="confirmLoading">
       <a-steps :current="currentStep" :style="{ marginBottom: '28px' }" size="small">
         <a-step title="问题分类" />
