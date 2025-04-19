@@ -18,7 +18,7 @@
         </div>
         <div v-show="currentStep === 1">
           <a-form-item label="题型" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-select v-decorator="['type', {rules: [{required: true}]}]" placeholder="请选择题型" style="width: 100%">
+            <a-select v-decorator="['type', {rules: [{required: true}]}]" placeholder="请选择题型" style="width: 100%" @change="handleTypeChange">
               <a-select-option v-for="typeObj in types" :value="typeObj.id" :key="typeObj.id">
                 {{ typeObj.description }}
               </a-select-option>
@@ -40,6 +40,21 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+
+          <!-- 添加音频上传组件 -->
+          <a-form-item v-if="isListeningType" label="音频文件" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-upload
+              :fileList="fileList"
+              :beforeUpload="beforeUpload"
+              @change="handleUploadChange"
+              :action="null"
+              :customRequest="() => {}"
+            >
+              <a-button>
+                <a-icon type="upload" /> 上传音频
+              </a-button>
+            </a-upload>
+          </a-form-item>
         </div>
 
         <div v-show="currentStep === 2">
@@ -53,8 +68,37 @@
               />
             </a-form-item>
 
-            <a-form-item label="设置答案" :labelCol="labelCol" :wrapperCol="wrapperCol" enterButton="Search">
-              <!-- 注意这里要按照单选、多选和判断进行区分 -->
+            <a-form-item label="设置答案" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <!-- 听力A、B、C部分和阅读B、C部分 -->
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="请选择答案"
+                :value="answerOptions"
+                v-if="isListeningType || type === 621 || type === 631"
+                style="width: 100%"
+                @popupScroll="popupScroll"
+                @change="handleMultiChange"
+              >
+                <a-select-option v-for="(option, index) in options" :value="option.content" :key="index">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+              <!-- 阅读A部分 -->
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="请选择答案（每个选项只能选择一次）"
+                :value="answerOptions"
+                v-if="type === 611"
+                style="width: 100%"
+                @popupScroll="popupScroll"
+                @change="handleReadingAChange"
+              >
+                <a-select-option v-for="(option, index) in options" :value="option.content" :key="index">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
               <!-- 单选 -->
               <a-select
                 style="width: 100%"
@@ -118,7 +162,7 @@
 <script>
 import '../../../plugins/summernote'
 import $ from 'jquery'
-import { getQuestionSelection, questionCreate } from '../../../api/exam'
+import { getQuestionSelection, questionCreate, uploadAudio } from '../../../api/exam'
 
 const stepForms = [[], ['type', 'category', 'level'], ['option']]
 
@@ -161,7 +205,10 @@ export default {
         }
       ],
       type: '',
-      isSubjective: false
+      isSubjective: false,
+      fileList: [],
+      isListeningType: false,
+      audioUrl: ''
     }
   },
   updated () {
@@ -268,6 +315,10 @@ export default {
         values.options = this.options
         values.name = this.getSummernoteContent('summernote-question-name')
         values.desc = this.getSummernoteContent('summernote-question-desc')
+        // 添加音频URL
+        if (this.isListeningType) {
+          values.audioUrl = this.audioUrl
+        }
         this.confirmLoading = false
         if (!errors) {
           console.log('values:', values)
@@ -369,6 +420,48 @@ export default {
           this.options[i].answer = false
         }
       }
+    },
+    handleTypeChange (value) {
+      this.isListeningType = [511, 521, 531].includes(value)
+      this.type = value
+    },
+    async handleUploadChange (info) {
+      let fileList = [...info.fileList]
+      fileList = fileList.slice(-1) // 只保留最后一个文件
+      this.fileList = fileList
+
+      // 如果文件上传完成
+      if (info.file.status === 'done') {
+        const formData = new FormData()
+        formData.append('file', info.file.originFileObj)
+        formData.append('dir', '/audio') // 指定保存目录
+
+        try {
+          const response = await uploadAudio(formData)
+          if (response.code === 0) {
+            this.$message.success('音频上传成功')
+            // 保存音频文件URL
+            this.audioUrl = response.data
+          } else {
+            this.$message.error('音频上传失败')
+          }
+        } catch (error) {
+          this.$message.error('音频上传失败')
+          console.error(error)
+        }
+      }
+    },
+    beforeUpload (file) {
+      const isAudio = file.type.startsWith('audio/')
+      if (!isAudio) {
+        this.$message.error('只能上传音频文件！')
+      }
+      return isAudio
+    },
+    handleReadingAChange (value) {
+      // 确保每个选项只被选择一次
+      const uniqueValues = [...new Set(value)]
+      this.answerOptions = uniqueValues
     }
 
   }
