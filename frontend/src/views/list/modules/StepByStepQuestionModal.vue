@@ -387,28 +387,45 @@ export default {
     async handleUploadChange (info) {
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1) // 只保留最后一个文件
-      this.fileList = fileList
-
-      // 如果文件上传完成
-      if (info.file.status === 'done') {
+      
+      // 当文件被选择时立即上传
+      if (info.file.originFileObj) {
         const formData = new FormData()
         formData.append('file', info.file.originFileObj)
         formData.append('dir', '/audio') // 指定保存目录
 
         try {
           const response = await uploadAudio(formData)
-          if (response.code === 0) {
-            this.$message.success('音频上传成功')
-            // 保存音频文件URL
-            this.audioUrl = response.data
-          } else {
-            this.$message.error('音频上传失败')
-          }
+          this.$message.success('音频上传成功')
+          // 保存音频文件URL
+          this.audioUrl = response.data
+          // 更新文件状态为完成
+          fileList = fileList.map(file => {
+            if (file.uid === info.file.uid) {
+              return {
+                ...file,
+                status: 'done',
+                url: response.data
+              }
+            }
+            return file
+          })
         } catch (error) {
           this.$message.error('音频上传失败')
           console.error(error)
+          // 更新文件状态为错误
+          fileList = fileList.map(file => {
+            if (file.uid === info.file.uid) {
+              return {
+                ...file,
+                status: 'error'
+              }
+            }
+            return file
+          })
         }
       }
+      this.fileList = fileList
     },
     beforeUpload (file) {
       const isAudio = file.type.startsWith('audio/')
