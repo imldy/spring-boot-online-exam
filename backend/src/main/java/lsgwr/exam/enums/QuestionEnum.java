@@ -11,9 +11,6 @@ public enum QuestionEnum {
     /**
      * 问题类型
      */
-    RADIO(1, "单选题"),
-    CHECK(2, "多选题"),
-    JUDGE(3, "判断题"),
     PART_I(411, "写作题"),
     PART_II_A(511, "听力A部分"),
     PART_II_B(521, "听力B部分"), 

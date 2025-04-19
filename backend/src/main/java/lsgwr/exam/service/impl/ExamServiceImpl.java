@@ -353,35 +353,6 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public ExamQuestionTypeVo getExamQuestionType() {
         ExamQuestionTypeVo examQuestionTypeVo = new ExamQuestionTypeVo();
-        // 获取所有单选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoRadioList上
-        List<ExamQuestionSelectVo> radioQuestionVoList = new ArrayList<>();
-        List<Question> radioQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.RADIO.getId());
-        for (Question question : radioQuestionList) {
-            ExamQuestionSelectVo radioQuestionVo = new ExamQuestionSelectVo();
-            BeanUtils.copyProperties(question, radioQuestionVo);
-            radioQuestionVoList.add(radioQuestionVo);
-        }
-        examQuestionTypeVo.setExamQuestionSelectVoRadioList(radioQuestionVoList);
-
-        // 获取所有多选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoCheckList上
-        List<ExamQuestionSelectVo> checkQuestionVoList = new ArrayList<>();
-        List<Question> checkQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.CHECK.getId());
-        for (Question question : checkQuestionList) {
-            ExamQuestionSelectVo checkQuestionVo = new ExamQuestionSelectVo();
-            BeanUtils.copyProperties(question, checkQuestionVo);
-            checkQuestionVoList.add(checkQuestionVo);
-        }
-        examQuestionTypeVo.setExamQuestionSelectVoCheckList(checkQuestionVoList);
-
-        // 获取所有多选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoJudgeList上
-        List<ExamQuestionSelectVo> judgeQuestionVoList = new ArrayList<>();
-        List<Question> judgeQuestionList = questionRepository.findByQuestionTypeId(QuestionEnum.JUDGE.getId());
-        for (Question question : judgeQuestionList) {
-            ExamQuestionSelectVo judgeQuestionVo = new ExamQuestionSelectVo();
-            BeanUtils.copyProperties(question, judgeQuestionVo);
-            judgeQuestionVoList.add(judgeQuestionVo);
-        }
-        examQuestionTypeVo.setExamQuestionSelectVoJudgeList(judgeQuestionVoList);
 
         // 获取写作题列表
         List<ExamQuestionSelectVo> partIQuestionVoList = new ArrayList<>();
@@ -489,10 +460,7 @@ public class ExamServiceImpl implements ExamService {
         String partIIIBIdsStr = "";
         String partIIICIdsStr = "";
         String partIVIdsStr = "";
-        
-        List<ExamQuestionSelectVo> radios = examCreateVo.getRadios();
-        List<ExamQuestionSelectVo> checks = examCreateVo.getChecks();
-        List<ExamQuestionSelectVo> judges = examCreateVo.getJudges();
+
         List<ExamQuestionSelectVo> partIs = examCreateVo.getPartIs();
         List<ExamQuestionSelectVo> partIIAs = examCreateVo.getPartIIAs();
         List<ExamQuestionSelectVo> partIIBs = examCreateVo.getPartIIBs();
@@ -501,37 +469,9 @@ public class ExamServiceImpl implements ExamService {
         List<ExamQuestionSelectVo> partIIIBs = examCreateVo.getPartIIIBs();
         List<ExamQuestionSelectVo> partIIICs = examCreateVo.getPartIIICs();
         List<ExamQuestionSelectVo> partIVs = examCreateVo.getPartIVs();
-        
-        int radioCnt = 0, checkCnt = 0, judgeCnt = 0;
+
         int partICnt = 0, partIIACnt = 0, partIIBCnt = 0, partIICCnt = 0;
         int partIIIACnt = 0, partIIIBCnt = 0, partIIICCnt = 0, partIVCnt = 0;
-        
-        // 处理单选题
-        for (ExamQuestionSelectVo radio : radios) {
-            if (radio.getChecked()) {
-                radioIdsStr += radio.getQuestionId() + "-";
-                radioCnt++;
-            }
-        }
-        radioIdsStr = replaceLastSeparator(radioIdsStr);
-        
-        // 处理多选题
-        for (ExamQuestionSelectVo check : checks) {
-            if (check.getChecked()) {
-                checkIdsStr += check.getQuestionId() + "-";
-                checkCnt++;
-            }
-        }
-        checkIdsStr = replaceLastSeparator(checkIdsStr);
-        
-        // 处理判断题
-        for (ExamQuestionSelectVo judge : judges) {
-            if (judge.getChecked()) {
-                judgeIdsStr += judge.getQuestionId() + "-";
-                judgeCnt++;
-            }
-        }
-        judgeIdsStr = replaceLastSeparator(judgeIdsStr);
         
         // 处理Part I写作题
         for (ExamQuestionSelectVo partI : partIs) {
@@ -624,9 +564,7 @@ public class ExamServiceImpl implements ExamService {
         exam.setExamQuestionIdsPartIV(partIVIdsStr);
 
         // 计算总分数
-        int examScore = radioCnt * exam.getExamScoreRadio() + 
-                       checkCnt * exam.getExamScoreCheck() + 
-                       judgeCnt * exam.getExamScoreJudge() +
+        int examScore =
                        partICnt * exam.getExamScorePartI() +
                        partIIACnt * exam.getExamScorePartIIA() +
                        partIIBCnt * exam.getExamScorePartIIB() +
