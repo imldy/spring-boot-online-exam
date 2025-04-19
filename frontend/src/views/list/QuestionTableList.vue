@@ -52,7 +52,8 @@ export default {
           field: 'name',
           width: 200,
           formatter: (value, row) => {
-            return '<div class="question-name" style="height: 100%;width: 100%">' + value + '</div>'
+            const truncatedValue = value.length > 100 ? value.substring(0, 100) + '...' : value
+            return '<div class="question-name" style="height: 100%;width: 100%">' + truncatedValue + '</div>'
           },
           events: {
             'click .question-name': function (e, value, row, index) {
@@ -65,7 +66,8 @@ export default {
           field: 'description',
           width: 200,
           formatter: (value, row) => {
-            return '<div class="question-desc">' + value + '</div>'
+            const truncatedValue = value.length > 100 ? value.substring(0, 100) + '...' : value
+            return '<div class="question-desc">' + truncatedValue + '</div>'
           },
           events: {
             'click .question-desc': function (e, value, row, index) {
