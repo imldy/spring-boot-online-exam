@@ -32,6 +32,7 @@ const api = {
   QuestionDetail: '/exam/question/detail/',
   // 交卷
   FinishExam: '/exam/finish/',
+  UploadFile: '/file/api/upload/singleAndparas',
   ExamRecordList: '/exam/record/list',
   recordDetail: '/exam/record/detail/'
 }

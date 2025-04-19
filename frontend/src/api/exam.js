@@ -155,7 +155,7 @@ export function getExamRecordList () {
 // 上传音频文件
 export function uploadAudio (formData) {
   return axios({
-    url: '/api/file/upload/singleAndparas',
+    url: api.UploadFile,
     method: 'post',
     data: formData,
     headers: {
