@@ -195,7 +195,7 @@ public class ExamServiceImpl implements ExamService {
             String questionOptionIds = "";
             String questionAnswerOptionIds = "";
             // 经过上面的saveAll方法，所有的option的主键id都已经持久化了
-            for (int i = 0; i < questionOptionCreateVoList.size(); i++) {
+            for (int i = 0; i < questionOptionList.size(); i++) {
             // 获取指定选项
                 QuestionOptionCreateVo questionOptionCreateVo = questionOptionCreateVoList.get(i);
                 // 获取保存后的指定对象
