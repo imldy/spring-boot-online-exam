@@ -24,6 +24,18 @@ import java.util.stream.Collectors;
  ***********************************************************/
 @Slf4j
 public class FileTransUtil {
+    // 基础路径，所有上传的文件都必须在这个路径下
+    private static final String BASE_UPLOAD_DIR = "upload_files";
+
+    /**
+     * 获取完整的文件保存路径
+     * @param dir 用户指定的目录
+     * @return 完整的文件保存路径
+     */
+    private static String getFullPath(String dir) {
+        return BASE_UPLOAD_DIR + "/" + dir;
+    }
+
     /**
      * 上传单个文件
      *
@@ -75,26 +87,27 @@ public class FileTransUtil {
      * @throws IOException 文件保存异常
      */
     public static void saveUploadedFiles(List<MultipartFile> files, String dir) throws IOException {
+        String fullPath = getFullPath(dir);
         for (MultipartFile file : files) {
             if (file.isEmpty()) {
                 continue;
             }
-            if (!FileUtil.exist(dir)) {
+            if (!FileUtil.exist(fullPath)) {
                 // 文件夹不存在就创建
-                FileUtil.mkdir(dir);
+                FileUtil.mkdir(fullPath);
             }
             byte[] bytes = file.getBytes();
             String fileName = file.getOriginalFilename().replace("\\", "/");
             if (fileName.lastIndexOf('/')>0){
                 // 上传文件夹的时候会有这种情况
-                String fileDir = dir + "/" + fileName.substring(0, fileName.lastIndexOf('/'));
+                String fileDir = fullPath + "/" + fileName.substring(0, fileName.lastIndexOf('/'));
                 if (!FileUtil.exist(fileDir)) {
                     // 文件夹不存在就创建,创建文件夹的时候会用到
                     FileUtil.mkdir(fileDir);
                 }
             }
             // 使用 Path 对象来处理路径
-            Path path = Paths.get(dir).resolve(fileName.replace("\\", "/"));
+            Path path = Paths.get(fullPath).resolve(fileName.replace("\\", "/"));
             // 确保父目录存在
             Files.createDirectories(path.getParent());
             Files.write(path, bytes);
