@@ -5,6 +5,7 @@ package lsgwr.exam.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.base.Strings;
 import lsgwr.exam.entity.*;
 import lsgwr.exam.enums.QuestionEnum;
 import lsgwr.exam.service.ExamService;
@@ -250,6 +251,7 @@ public class ExamServiceImpl implements ExamService {
      * @return
      */
     public static String trimMiddleLine(String str) {
+        if (Strings.isNullOrEmpty(str)) return null;
         if (str.charAt(str.length() - 1) == '-') {
             str = str.substring(0, str.length() - 1);
         }
@@ -271,6 +273,10 @@ public class ExamServiceImpl implements ExamService {
                         ).orElse(null)
                 ).getQuestionTypeDescription()
         );
+        if (Strings.isNullOrEmpty(question.getQuestionOptionIds())){
+            questionDetailVo.setOptions(new ArrayList<>());
+            return questionDetailVo;
+        }
         // 获取当前问题的选项
         String optionIdsStr = trimMiddleLine(question.getQuestionOptionIds());
         String[] optionIds = optionIdsStr.split("-");
