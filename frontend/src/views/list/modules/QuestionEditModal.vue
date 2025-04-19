@@ -4,22 +4,66 @@
       <a-form :form="form">
         <h3><b>题干：</b></h3>
         <div id="summernote-question-name-edit" />
+        <!-- 显示音频文件（如果是听力题） -->
+        <div v-if="isListeningType && question.audioUrl" class="audio-player">
+          <audio controls>
+            <source :src="question.audioUrl" type="audio/mpeg">
+            您的浏览器不支持音频播放。
+          </audio>
+        </div>
         <!-- 非主观题显示选项列表 -->
         <template v-if="!isSubjective">
-          <ul v-show="question.type==='多选题'">
+          <ul v-show="isMultiSelectType">
             <li v-for="option in question.options" :key="option.id">
               <a-input v-model="option.content" />
             </li>
           </ul>
 
-          <ul v-show="question.type!=='多选题'">
+          <ul v-show="!isMultiSelectType">
             <li v-for="option in question.options" :key="option.id">
               <a-input v-model="option.content" />
             </li>
           </ul>
 
           <h3><b>答案：</b></h3>
-          <ul v-show="question.type!=='多选题'">
+          <!-- 听力A、B、C部分和阅读B、C部分 -->
+          <ul v-show="isListeningType || question.typeId === 621 || question.typeId === 631">
+            <li>
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="请选择答案"
+                :value="answerOptionIds"
+                style="width: 100%"
+                @change="handleMultiChange"
+                @popupScroll="popupScroll"
+              >
+                <a-select-option v-for="option in question.options" :key="option.id">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+            </li>
+          </ul>
+          <!-- 阅读A部分 -->
+          <ul v-show="question.typeId === 611">
+            <li>
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="请选择答案（每个选项只能选择一次）"
+                :value="answerOptionIds"
+                style="width: 100%"
+                @change="handleReadingAChange"
+                @popupScroll="popupScroll"
+              >
+                <a-select-option v-for="option in question.options" :key="option.id">
+                  {{ option.content }}
+                </a-select-option>
+              </a-select>
+            </li>
+          </ul>
+          <!-- 原有的单选、多选和判断 -->
+          <ul v-show="question.typeId === 1">
             <li>
               <a-select :size="size" :value="answerOptionId" style="width: 100%" @change="handleSingleChange">
                 <a-select-option v-for="option in question.options" :key="option.id">
@@ -29,7 +73,7 @@
             </li>
           </ul>
 
-          <ul v-show="question.type==='多选题'">
+          <ul v-show="question.typeId === 2">
             <li>
               <a-select
                 mode="multiple"
@@ -76,6 +120,8 @@ export default {
       size: 'default',
       confirmLoading: false,
       isSubjective: false,
+      isListeningType: false,
+      isMultiSelectType: false,
       form: this.$form.createForm(this),
       // 每个问题
       question: {},
@@ -140,6 +186,11 @@ export default {
       this.question = record
       // 判断是否是主观题（type_id为411或711）
       this.isSubjective = this.question.typeId === 411 || this.question.typeId === 711
+      // 判断是否是听力题
+      this.isListeningType = [511, 521, 531].includes(this.question.typeId)
+      // 判断是否是多选题类型
+      this.isMultiSelectType = this.isListeningType || this.question.typeId === 2 ||
+                              this.question.typeId === 621 || this.question.typeId === 631
       // 上来先把之前的清理干净
       this.answerOptionId = ''
       this.answerOptionIds = []
@@ -207,6 +258,27 @@ export default {
 
     popupScroll () {
       console.log('popupScroll')
+    },
+
+    handleReadingAChange (values) {
+      // 确保每个选项只被选择一次
+      const uniqueValues = [...new Set(values)]
+      this.answerOptionIds = uniqueValues
+      // 更新question中options的answer位置
+      for (let i = 0; i < this.question.options.length; i++) {
+        const id = this.question.options[i].id
+        let isAnswer = false
+        for (let j = 0; j < uniqueValues.length; j++) {
+          if (id === uniqueValues[j]) {
+            isAnswer = true
+            this.question.options[i].answer = true
+            break
+          }
+        }
+        if (!isAnswer) {
+          this.question.options[i].answer = false
+        }
+      }
     },
 
     handleUpdate () {
