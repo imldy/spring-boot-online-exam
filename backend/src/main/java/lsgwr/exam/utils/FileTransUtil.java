@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,10 +85,14 @@ public class FileTransUtil {
      * 保存文件到指定路径
      *
      * @param files 上传的文件
+     * @param dir 存储到的路径
+     * @return 所有文件存储到的真实路径列表
      * @throws IOException 文件保存异常
      */
-    public static void saveUploadedFiles(List<MultipartFile> files, String dir) throws IOException {
+    public static List<Path> saveUploadedFiles(List<MultipartFile> files, String dir) throws IOException {
         String fullPath = getFullPath(dir);
+        List<Path> savedPaths = new ArrayList<>();
+        
         for (MultipartFile file : files) {
             if (file.isEmpty()) {
                 continue;
@@ -111,7 +116,9 @@ public class FileTransUtil {
             // 确保父目录存在
             Files.createDirectories(path.getParent());
             Files.write(path, bytes);
+            savedPaths.add(path);
         }
+        return savedPaths;
     }
 
     /**
