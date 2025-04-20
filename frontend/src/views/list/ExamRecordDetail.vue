@@ -21,28 +21,74 @@
         <a-menu
           mode="inline"
           :defaultSelectedKeys="['1']"
-          :defaultOpenKeys="['question_radio', 'question_check', 'question_judge']"
+          :defaultOpenKeys="['partI', 'partII', 'partIII', 'partIV']"
           :style="{ height: '100%', borderRight: 0 }"
         >
-          <a-sub-menu key="question_radio">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="check-circle" theme="twoTone"/>单选题(每题{{ examDetail.exam.examScoreRadio }}分)</span>
-            <a-menu-item v-for="(item, index) in examDetail.radioIds" :key="item" @click="getQuestionDetail(item)">
+          <a-sub-menu key="partI">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="edit" theme="twoTone"/>写作部分</span>
+            <a-menu-item v-for="(item, index) in examDetail.partIIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
               <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
               题目{{ index + 1 }}
             </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="question_check">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="check-square" theme="twoTone"/>多选题(每题{{ examDetail.exam.examScoreCheck }}分)</span>
-            <a-menu-item v-for="(item, index) in examDetail.checkIds" :key="item" @click="getQuestionDetail(item)">
-              <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
-              <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
-              题目{{ index + 1 }}
-            </a-menu-item>
+          <a-sub-menu key="partII">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="sound" theme="twoTone"/>听力部分</span>
+            <a-sub-menu key="partIIA">
+              <span slot="title">Section A</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIAIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
+                <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIB">
+              <span slot="title">Section B</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIBIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
+                <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIC">
+              <span slot="title">Section C</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIICIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
+                <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
           </a-sub-menu>
-          <a-sub-menu key="question_judge">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="like" theme="twoTone"/>判断题(每题{{ examDetail.exam.examScoreJudge }}分)</span>
-            <a-menu-item v-for="(item, index) in examDetail.judgeIds" :key="item" @click="getQuestionDetail(item)">
+          <a-sub-menu key="partIII">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="read" theme="twoTone"/>阅读部分</span>
+            <a-sub-menu key="partIIIA">
+              <span slot="title">Section A</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIIAIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
+                <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIIB">
+              <span slot="title">Section B</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIIBIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
+                <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="partIIIC">
+              <span slot="title">Section C</span>
+              <a-menu-item v-for="(item, index) in examDetail.partIIICIds" :key="item" @click="getQuestionDetail(item)">
+                <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
+                <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
+                题目{{ index + 1 }}
+              </a-menu-item>
+            </a-sub-menu>
+          </a-sub-menu>
+          <a-sub-menu key="partIV">
+            <span slot="title" v-if="examDetail.exam"><a-icon type="translation" theme="twoTone"/>翻译部分</span>
+            <a-menu-item v-for="(item, index) in examDetail.partIVIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="check" v-if="resultsMap.get(item)==='True'"/>
               <a-icon type="close" v-if="resultsMap.get(item)==='False'"/>
               题目{{ index + 1 }}
@@ -60,38 +106,67 @@
               <strong style="color: red;" v-if="!questionRight">本题您答错啦！</strong>
             </span>
             <br><br>
-            <!-- 单选题和判断题 --> <!-- key不重复只需要在一个for循环中保证即可 -->
-            <a-radio-group v-model="radioValue" v-if="currentQuestion.type === '单选题' || currentQuestion.type === '判断题'">
-              <a-radio v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle" :value="option.questionOptionId">
-                {{ option.questionOptionContent }}
-              </a-radio>
-            </a-radio-group>
 
-            <!-- 题目出错的时候才显示这块 -->
-            <div v-if="!questionRight && currentQuestion!=='' && (currentQuestion.type === '单选题' || currentQuestion.type === '判断题')">
-              <span style="color: red;"><br/>正确答案是：<br/></span>
-              <a-radio-group v-model="radioRightValue">
-                <a-radio v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle" :value="option.questionOptionId">
-                  {{ option.questionOptionContent }}
-                </a-radio>
-              </a-radio-group>
+            <!-- 显示音频文件（如果是听力题） -->
+            <div v-if="isListeningType && currentQuestion.audioUrl" class="audio-player">
+              <audio controls>
+                <source :src="currentQuestion.audioUrl" type="audio/mpeg">
+                您的浏览器不支持音频播放。
+              </audio>
             </div>
 
-            <!-- 多选题 -->
-            <a-checkbox-group v-model="checkValues" v-if="currentQuestion.type === '多选题'">
+            <!-- 听力A、B、C部分和阅读B、C部分 -->
+            <a-checkbox-group v-model="checkValues" v-if="isListeningType || currentQuestion.typeId === 621 || currentQuestion.typeId === 631">
               <a-checkbox v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle" :value="option.questionOptionId">
                 {{ option.questionOptionContent }}
               </a-checkbox>
             </a-checkbox-group>
 
+            <!-- 阅读A部分 -->
+            <a-select
+              mode="multiple"
+              :size="size"
+              placeholder="请选择答案（每个选项只能选择一次）"
+              :value="checkValues"
+              style="width: 100%"
+              v-if="currentQuestion.typeId === 611"
+            >
+              <a-select-option v-for="option in currentQuestion.options" :key="option.questionOptionId">
+                {{ option.questionOptionContent }}
+              </a-select-option>
+            </a-select>
+
+            <!-- 写作和翻译题部分 -->
+            <a-textarea
+              v-if="currentQuestion.typeId === 411 || currentQuestion.typeId === 711"
+              v-model="subjectiveAnswer[0]"
+              placeholder="请输入您的答案"
+              :auto-size="{ minRows: 10, maxRows: 20 }"
+              style="width: 100%; margin-top: 20px;"
+              disabled
+            />
+
             <!-- 题目出错的时候才显示这块 -->
-            <div v-if="!questionRight && currentQuestion!=='' && currentQuestion.type === '多选题'">
+            <div v-if="!questionRight && currentQuestion!==''">
               <span style="color: red;"><br/>正确答案是：<br/></span>
-              <a-checkbox-group v-model="checkRightValues">
+              <a-checkbox-group v-model="checkRightValues" v-if="isListeningType || currentQuestion.typeId === 621 || currentQuestion.typeId === 631">
                 <a-checkbox v-for="option in currentQuestion.options" :key="option.questionOptionId" :style="optionStyle" :value="option.questionOptionId">
                   {{ option.questionOptionContent }}
                 </a-checkbox>
               </a-checkbox-group>
+              <a-select
+                mode="multiple"
+                :size="size"
+                placeholder="请选择答案（每个选项只能选择一次）"
+                :value="checkRightValues"
+                style="width: 100%"
+                v-if="currentQuestion.typeId === 611"
+                disabled
+              >
+                <a-select-option v-for="option in currentQuestion.options" :key="option.questionOptionId">
+                  {{ option.questionOptionContent }}
+                </a-select-option>
+              </a-select>
             </div>
 
             <span style="color: red;"><br/>答案解析：<br/></span>
@@ -130,20 +205,20 @@ export default {
       resultsMap: {},
       // 当前用户的问题
       currentQuestion: '',
-      // 单选或判断题的绑定值，用于从answersMap中初始化做题状态
-      radioValue: '',
-      // 单选题的正确答案，用于从answersRightMap中初始化做题状态
-      radioRightValue: '',
       // 多选题的绑定值，用于从answersMap中初始化做题状态
       checkValues: [],
-      // 多选题的绑定值，用于从answersRightMap中初始化做题状态
+      // 多选题的正确答案，用于从answersRightMap中初始化做题状态
       checkRightValues: [],
+      // 主观题答案
+      subjectiveAnswer: [''],
       optionStyle: {
         display: 'block',
         height: '30px',
         lineHeight: '30px',
         marginLeft: '0px'
-      }
+      },
+      isListeningType: false,
+      size: 'default'
     }
   },
   computed: {
@@ -214,25 +289,26 @@ export default {
       // 问题切换时从后端拿到问题详情，渲染到前端content中
       const that = this
       // 清空问题绑定的值
-      this.radioValue = ''
-      this.radioRightValue = ''
       this.checkValues = []
       this.checkRightValues = []
+      this.subjectiveAnswer = ['']
       getQuestionDetail(questionId)
         .then(res => {
           if (res.code === 0) {
             // 赋值当前考试对象
             that.currentQuestion = res.data
+            // 判断是否是听力题
+            that.isListeningType = [511, 521, 531].includes(that.currentQuestion.typeId)
             // 查看用户是不是已经做过这道题又切换回来的，answersMap中查找，能找到这个题目id对应的值数组不为空说明用户做过这道题
             if (that.answersMap.get(that.currentQuestion.id)) {
               // 说明之前做过这道题了
-              if (that.currentQuestion.type === '单选题' || that.currentQuestion.type === '判断题') {
-                that.radioValue = that.answersMap.get(that.currentQuestion.id)[0]
-                that.radioRightValue = that.answersRightMap.get(that.currentQuestion.id)[0]
-              } else if (that.currentQuestion.type === '多选题') {
+              if (that.currentQuestion.type === '多选题') {
                 // 数组是引用类型，因此需要进行拷贝，千万不要直接赋值
                 Object.assign(that.checkValues, that.answersMap.get(that.currentQuestion.id))
                 Object.assign(that.checkRightValues, that.answersRightMap.get(that.currentQuestion.id))
+              } else if (that.currentQuestion.typeId === 411 || that.currentQuestion.typeId === 711) {
+                // 如果是写作或翻译题，恢复之前输入的答案
+                that.subjectiveAnswer = [that.answersMap.get(that.currentQuestion.id)]
               }
             }
             return res.data
