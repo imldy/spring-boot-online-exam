@@ -41,7 +41,7 @@ public class ExamVo {
     @JsonProperty("partIIB")
     private List<ExamQuestionSelectVo> examQuestionSelectVoPartIIBList;
 
-    @JsonProperty("partIC")
+    @JsonProperty("partIIC")
     private List<ExamQuestionSelectVo> examQuestionSelectVoPartIICList;
 
     @JsonProperty("partIIIA")
@@ -80,7 +80,7 @@ public class ExamVo {
     @JsonProperty("partIICScore")
     private Integer examScorePartIIC;
 
-    @JsonProperty("partIIIScore")
+    @JsonProperty("partIIIAScore")
     private Integer examScorePartIIIA;
 
     @JsonProperty("partIIIBScore")
