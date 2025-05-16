@@ -255,7 +255,16 @@ export default {
       partIIIAs: [],
       partIIIBs: [],
       partIIICs: [],
-      partIVs: []
+      partIVs: [],
+      // 用于默认选中
+      defaultPartIs: [],
+      defaultPartIIAs: [],
+      defaultPartIIBs: [],
+      defaultPartIICs: [],
+      defaultPartIIIAs: [],
+      defaultPartIIIBs: [],
+      defaultPartIIICs: [],
+      defaultPartIVs: []
     }
   },
   methods: {
@@ -285,16 +294,52 @@ export default {
             message: '获取问题列表失败',
             description: res.msg
           })
+          return
         }
         console.log(res.data)
-        that.partIs = res.data.partIs
-        that.partIIAs = res.data.partIIAs
-        that.partIIBs = res.data.partIIBs
-        that.partIICs = res.data.partIICs
-        that.partIIIAs = res.data.partIIIAs
-        that.partIIIBs = res.data.partIIIBs
-        that.partIIICs = res.data.partIIICs
-        that.partIVs = res.data.partIVs
+        // 按照后端返回的数据格式获取题目列表
+        that.partIs = res.data.partI || []
+        that.partIIAs = res.data.partIIA || []
+        that.partIIBs = res.data.partIIB || []
+        that.partIICs = res.data.partIIC || []
+        that.partIIIAs = res.data.partIIIA || []
+        that.partIIIBs = res.data.partIIIB || []
+        that.partIIICs = res.data.partIIIC || []
+        that.partIVs = res.data.partIVs || []
+        
+        // 根据已有的考试题目ID标记选中状态
+        if (exam.examQuestionIdsPartI) {
+          that.markSelectedQuestions(that.partIs, exam.examQuestionIdsPartI.split('-'))
+          that.setDefaultSelectedItems(that.partIs, that.defaultPartIs)
+        }
+        if (exam.examQuestionIdsPartIIA) {
+          that.markSelectedQuestions(that.partIIAs, exam.examQuestionIdsPartIIA.split('-'))
+          that.setDefaultSelectedItems(that.partIIAs, that.defaultPartIIAs)
+        }
+        if (exam.examQuestionIdsPartIIB) {
+          that.markSelectedQuestions(that.partIIBs, exam.examQuestionIdsPartIIB.split('-'))
+          that.setDefaultSelectedItems(that.partIIBs, that.defaultPartIIBs)
+        }
+        if (exam.examQuestionIdsPartIIC) {
+          that.markSelectedQuestions(that.partIICs, exam.examQuestionIdsPartIIC.split('-'))
+          that.setDefaultSelectedItems(that.partIICs, that.defaultPartIICs)
+        }
+        if (exam.examQuestionIdsPartIIIA) {
+          that.markSelectedQuestions(that.partIIIAs, exam.examQuestionIdsPartIIIA.split('-'))
+          that.setDefaultSelectedItems(that.partIIIAs, that.defaultPartIIIAs)
+        }
+        if (exam.examQuestionIdsPartIIIB) {
+          that.markSelectedQuestions(that.partIIIBs, exam.examQuestionIdsPartIIIB.split('-'))
+          that.setDefaultSelectedItems(that.partIIIBs, that.defaultPartIIIBs)
+        }
+        if (exam.examQuestionIdsPartIIIC) {
+          that.markSelectedQuestions(that.partIIICs, exam.examQuestionIdsPartIIIC.split('-'))
+          that.setDefaultSelectedItems(that.partIIICs, that.defaultPartIIICs)
+        }
+        if (exam.examQuestionIdsPartIV) {
+          that.markSelectedQuestions(that.partIVs, exam.examQuestionIdsPartIV.split('-'))
+          that.setDefaultSelectedItems(that.partIVs, that.defaultPartIVs)
+        }
       }).catch(err => {
         // 失败就弹出警告消息
         this.$notification.error({
@@ -323,6 +368,8 @@ export default {
       this.confirmLoading = true
       console.log('提交数据到后端')
       this.confirmLoading = false
+      
+      // 按照后端ExamVo中的@JsonProperty注解设置属性
       this.exam.name = this.name
       this.exam.elapse = this.elapse
       this.exam.desc = this.desc
@@ -335,8 +382,43 @@ export default {
       this.exam.partIIIBScore = this.partIIIBScore
       this.exam.partIIICScore = this.partIIICScore
       this.exam.partIVScore = this.partIVScore
-      // 设置题目内容，但是提交前需要保证都已经被正确更新了
-      this.exam.partIs = this.partIs
+      
+      // 设置题目数据，按照@JsonProperty注解对应的名称
+      this.exam.partI = this.partIs
+      this.exam.partIIA = this.partIIAs
+      this.exam.partIIB = this.partIIBs
+      this.exam.partIIC = this.partIICs //
+      this.exam.partIIIA = this.partIIIAs
+      this.exam.partIIIB = this.partIIIBs
+      this.exam.partIIIC = this.partIIICs
+      this.exam.partIV = this.partIVs
+      
+      // 确保检查了marked的题目
+      this.exam.partI.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIIA.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIIB.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIIC.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIIIA.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIIIB.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIIIC.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      this.exam.partIV.forEach(item => {
+        if (item.checked === undefined) item.checked = false
+      })
+      
       const that = this
       examUpdate(that.exam).then(res => {
         // 成功就跳转到结果页面
@@ -555,6 +637,23 @@ export default {
         // 这个选项遍历到最后，发现还不是答案(不在答案数组中)，那么就把这个选项的answer属性设置为false
         if (checked === false) {
           this.partIVs[i].checked = false
+        }
+      }
+    },
+    markSelectedQuestions (questions, selectedIds) {
+      if (!questions || !selectedIds || selectedIds.length === 0) return
+      
+      for (let i = 0; i < questions.length; i++) {
+        if (selectedIds.includes(questions[i].questionId)) {
+          questions[i].checked = true
+        }
+      }
+    },
+    setDefaultSelectedItems (questions, defaultArray) {
+      defaultArray.length = 0
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].checked) {
+          defaultArray.push(questions[i].name)
         }
       }
     }
