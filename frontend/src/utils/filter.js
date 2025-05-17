@@ -21,5 +21,8 @@ Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
 })
 
 Vue.filter('imgSrcFilter', function (content) {
+  if (!content || !$(content).children('img').length) {
+    return 'https://i.loli.net/2019/11/02/rCHKVJd4jTovzW9.jpg' // 默认图片路径
+  }
   return $(content).children('img').attr('src')
 })
